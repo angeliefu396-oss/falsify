@@ -127,7 +127,7 @@ docs/                    架构、可移植性、用法配方
 
 ## 状态
 
-`v2.1-alpha`：规则与结构完成，强制层有测试覆盖。**行为层**（模型是否真的遵守）必须在每个具体载体 + 具体模型上跑回归；套件与"不可补偿失败"清单见 [references/19-regression.md](references/19-regression.md)。本项目不声称提示词能带来技术隔离、自动记忆或独立审计。
+`v2.1-alpha`：规则与结构完成，强制层有测试覆盖。**首轮行为回归**（2026-10-25，Skill 载体，DeepSeek-V4.1-Flash）：**25 PASS / 2 PARTIAL / 0 FAIL**，未检出不可补偿失败；含协议偏差与待核查项的完整记录见 [docs/regression-results.md](docs/regression-results.md)。行为层仍须逐载体、逐模型重跑，套件在 [references/19-regression.md](references/19-regression.md)。本项目不声称提示词能带来技术隔离、自动记忆或独立审计。
 
 ## 参与
 

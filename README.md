@@ -130,7 +130,7 @@ The rule set is language-agnostic. The kernel ships in both Chinese and English 
 
 ## Status
 
-`v2.1-alpha` — rules and structure are complete, and the enforcement layer is tested. The **behavioural** claims (does a model actually comply) require regression runs on each specific carrier + model; see [references/19-regression.md](references/19-regression.md) for the T01–T27 suite and the non-compensable failure list. Nothing here claims that a prompt produces technical isolation, automatic memory, or an independent audit.
+`v2.1-alpha` — rules and structure are complete, and the enforcement layer is tested. **First behavioural run** (2026-10-25, Agent Skills carrier, DeepSeek-V4.1-Flash): **25 PASS / 2 PARTIAL / 0 FAIL**, no non-compensable failure detected — full record including protocol caveats in [docs/regression-results.md](docs/regression-results.md). Behaviour still has to be re-run per carrier and per model; the suite is in [references/19-regression.md](references/19-regression.md). Nothing here claims that a prompt produces technical isolation, automatic memory, or an independent audit.
 
 ## Contributing
 

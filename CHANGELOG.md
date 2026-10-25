@@ -20,6 +20,7 @@
 - **MCP server**：`scripts/dcai_mcp.py`，手写 JSON-RPC 2.0 over stdio，零依赖，9 个工具（forecast new/update/resolve/void/list/score、decide new、check、verify），与 CLI 共用同一批函数，因此护栏完全一致。`--selftest` 可在没有客户端时自检。
 - **完整说明书**：`MANUAL.md`（中文，13 章）与 `MANUAL.en.md`（英文，同结构）。覆盖安装矩阵、内核逐条解释、工作流导读、CLI 全参数、MCP、回归协议、故障排查、FAQ、版本与迁移。
 - **回归用例数据**：`tests/regression/cases.json`，T01–T27 的 prompt / setup / 通过标准，可直接喂给自动化编排。
+- **首轮行为回归结果**：`docs/regression-results.md`，契约式记录（载体、模型、协议偏差、逐条判定）。本轮 **25 PASS / 2 PARTIAL / 0 FAIL**，未检出不可补偿失败；T05 的来源真实性标注为待人工抽查。
 - **MCP 测试**：协议层（initialize / tools/list / 通知不回应 / 解析错误 / 未知方法）、工具层（完整生命周期、二次兑现拒绝、坏输入不崩）、一致性（工具名与 handler 覆盖）。
 
 ### Changed
@@ -30,6 +31,7 @@
 
 ### Fixed
 
+- **首次激活的边界收紧**：T01 显示"只回一句"不足以约束模型，实测中回答追加了路由触发表与自检清单。`SKILL.md` / `SKILL.en.md` 现已显式列出激活时禁止补充的六类内容（内核复述、八步、路由表、索引、自检、版本沿革），并注明 T01 会抓这类失败。
 - `install.sh` 在无候选目录时会因 `[ -d ] && echo` 返回非 0 而静默退出（现改为 `if … fi`）。
 - `install.ps1` 非 ASCII 字面量在 PowerShell 5.1 下解析失败（现保持纯 ASCII，并有测试守护）。
 

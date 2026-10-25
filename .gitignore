@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# 测试临时目录（普通 mkdir 建的；受限沙箱里 mkdtemp 留下的空目录也一并忽略）
+tests/scratch/
+tmp*/
+tmp_*/
+
+# 运行时数据（用户的预测卡与决策记录不入库）
+dcai/
+
+# 编辑器与系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 构建缓存
+build/
+.cache/

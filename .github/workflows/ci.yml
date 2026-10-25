@@ -5,6 +5,13 @@ on:
     branches: [main]
   pull_request:
 
+env:
+  # Windows runners default to cp1252 for stdout, which breaks any Chinese output
+  # (build.py prints Chinese; unittest prints Chinese assertion messages).
+  PYTHONIOENCODING: utf-8
+  PYTHONUTF8: "1"
+  PYTHONLEGACYWINDOWSSTDIO: "0"
+
 jobs:
   test:
     runs-on: ${{ matrix.os }}

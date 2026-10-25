@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Status: alpha](https://img.shields.io/badge/status-v2.2--alpha-orange.svg)](CHANGELOG.md)
 
-一套让 AI **不再把"不确定"说成"确定"**的规则包。
+一套让 AI 不再把不确定说成确定的规则包。
 
 名字就是全部主张：**一个判断值不值钱，只看现实能不能推翻它。** 无法下注的结论不是结论，是情绪。
 

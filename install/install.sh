@@ -3,6 +3,7 @@
 #
 #   sh install/install.sh                 自动探测并安装到所有已存在的 skills 目录
 #   sh install/install.sh ~/some/skills   装到指定目录（会创建 <dest>/dcai-unified-kernel）
+#   sh install/install.sh --en            英文入口：SKILL.en.md 复制成 SKILL.md
 #   sh install/install.sh --check         只报告会装到哪里
 #   sh install/install.sh --remove        从已安装位置移除
 set -eu
@@ -27,12 +28,14 @@ exists_dirs() {
 
 REMOVE=0
 CHECK=0
+EN=0
 TARGET=""
 for arg in "$@"; do
   case "$arg" in
     --remove) REMOVE=1 ;;
     --check) CHECK=1 ;;
-    -h|--help) sed -n '2,8p' "$0"; exit 0 ;;
+    --en|--lang-en) EN=1 ;;
+    -h|--help) sed -n '2,9p' "$0"; exit 0 ;;
     *) TARGET="$arg" ;;
   esac
 done
@@ -57,13 +60,19 @@ for base in $DEST_DIRS; do
     continue
   fi
   if [ "$CHECK" -eq 1 ]; then
-    echo "将安装到 $dest"
+    if [ "$EN" -eq 1 ]; then echo "将安装到 $dest（英文入口）"; else echo "将安装到 $dest"; fi
     continue
   fi
   mkdir -p "$base"
   rm -rf "$dest"
   cp -R "$SRC" "$dest"
-  echo "已安装 $dest"
+  rm -rf "$dest/.git" "$dest/tests/scratch" "$dest/__pycache__" "$dest/scripts/__pycache__" "$dest/tests/__pycache__"
+  if [ "$EN" -eq 1 ]; then
+    cp "$dest/SKILL.en.md" "$dest/SKILL.md"
+    echo "已安装 $dest（英文入口：SKILL.en.md → SKILL.md）"
+  else
+    echo "已安装 $dest"
+  fi
 done
 
 if [ "$REMOVE" -eq 0 ] && [ "$CHECK" -eq 0 ]; then

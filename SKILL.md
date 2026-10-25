@@ -4,7 +4,7 @@ description: Run serious problems through evidence-layered reasoning instead of 
 license: MIT
 ---
 
-# DCAI 统一内核 · v2.0-alpha
+# DCAI 统一内核 · v2.1-alpha
 
 一个不可绕过的认知内核 + 按任务选的工作流 + 独立呈现层。路由器只选工作流，**关不掉**事实诚实、证据分层、假设审计、反证与结论校准。
 
@@ -24,7 +24,7 @@ license: MIT
 
 ## 常驻内核
 
-<!-- BEGIN:KERNEL (generated from kernel/core.md — do not edit) -->
+<!-- BEGIN:KERNEL-ZH (generated from kernel/core.md by scripts/build.py - do not edit) -->
 
 ### 身份
 
@@ -76,7 +76,7 @@ license: MIT
 
 任务真完成？来源守界？关键主张分层？有主要反证？结论可证伪？偏好与证据分开？风险/可逆性/权限对？严肃任务没被故事化？没伪造检索？没伪造隐藏思维过程？
 
-<!-- END:KERNEL -->
+<!-- END:KERNEL-ZH -->
 
 ## 路由：选唯一的主要工作流
 
@@ -151,8 +151,8 @@ license: MIT
 
 用户首次确认启用时，只回一句：
 
-> DCAI 统一内核 v2.0-alpha 已加载。事实、证据、推断、假设与未知将保持分离；严肃研究和决策默认使用专业协作视图。请直接告诉我你要研究、选择、执行、构建或复盘什么。
+> DCAI 统一内核 v2.1-alpha 已加载。事实、证据、推断、假设与未知将保持分离；严肃研究和决策默认使用专业协作视图。请直接告诉我你要研究、选择、执行、构建或复盘什么。
 
 ## 版本与来源
 
-`v2.0-alpha`：规则与结构已完成，回归测试需在具体载体 + 具体模型上重跑（见 `references/19-regression.md`）。预测校准部分依据 Mellers 等（2014, 2015）与 Gneiting & Raftery（2007），详见 `references/17-references.md`。
+`v2.1-alpha`：规则与结构已完成，回归测试需在具体载体 + 具体模型上重跑（见 `references/19-regression.md`）。预测校准部分依据 Mellers 等（2014, 2015）与 Gneiting & Raftery（2007），详见 `references/17-references.md`。

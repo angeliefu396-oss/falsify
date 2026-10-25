@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""单源构建器：kernel/core.md → SKILL.md 内联区 + dist/ 单文件载体。
+"""单源构建器：把 kernel/*.md 注入 SKILL*.md，并生成 dist/ 载体。
 
-唯一真源是 kernel/core.md 与 references/*.md。SKILL.md 里的内核区块、
-dist/kernel-always-on.md、dist/dcai-single-file.md 全部是生成物。
+唯一真源：kernel/core.md、kernel/core.en.md、references/*.md。
+生成物：SKILL.md 与 SKILL.en.md 的内核区块、dist/ 下所有文件。
 
 用法:
   python scripts/build.py           重新生成
-  python scripts/build.py --check   只校验生成物是否与真源同步（CI 用，返回非 0 表示漂移）
+  python scripts/build.py --check   只校验是否与真源同步（CI 用，非 0 表示漂移）
 """
 from __future__ import annotations
 
@@ -17,13 +17,18 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-CORE = ROOT / "kernel" / "core.md"
-SKILL = ROOT / "SKILL.md"
 REF_DIR = ROOT / "references"
 DIST = ROOT / "dist"
 
-BEGIN = "<!-- BEGIN:KERNEL"
-END = "<!-- END:KERNEL -->"
+# (文档, 内核真源, 起始标记, 结束标记)
+INJECTIONS = [
+    (ROOT / "SKILL.md", ROOT / "kernel" / "core.md",
+     "<!-- BEGIN:KERNEL-ZH (generated from kernel/core.md by scripts/build.py - do not edit) -->",
+     "<!-- END:KERNEL-ZH -->"),
+    (ROOT / "SKILL.en.md", ROOT / "kernel" / "core.en.md",
+     "<!-- BEGIN:KERNEL-EN (generated from kernel/core.en.md by scripts/build.py - do not edit) -->",
+     "<!-- END:KERNEL-EN -->"),
+]
 
 
 def read(p: pathlib.Path) -> str:
@@ -31,62 +36,59 @@ def read(p: pathlib.Path) -> str:
 
 
 def demote(md: str) -> str:
-    """去掉 H1 与构建说明引用块，并把标题降一级，便于内联到 SKILL.md 的 ## 之下。"""
+    """去掉 H1 与构建说明引用块，标题降一级，便于内联到 ## 之下。"""
     lines = md.splitlines()
     start = next(i for i, ln in enumerate(lines) if ln.startswith("## "))
-    body = lines[start:]
     out = []
-    for ln in body:
+    for ln in lines[start:]:
         m = re.match(r"^(#{2,6})\s+(.*)$", ln)
-        if m:
-            out.append("#" * (len(m.group(1)) + 1) + " " + m.group(2))
-        else:
-            out.append(ln)
+        out.append("#" * (len(m.group(1)) + 1) + " " + m.group(2) if m else ln)
     return "\n".join(out).strip()
 
 
-def kernel_block() -> str:
-    return demote(read(CORE))
-
-
-def render_skill(current: str) -> str:
-    pattern = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)
-    block = f"{BEGIN} (generated from kernel/core.md — do not edit) -->\n\n{kernel_block()}\n\n{END}"
-    if not pattern.search(current):
-        raise SystemExit("SKILL.md 缺少内核标记，无法生成")
-    return pattern.sub(lambda _m: block, current, count=1)
+def render_injection(doc: str, core_path: pathlib.Path, begin: str, end: str) -> str:
+    pattern = re.compile(re.escape(begin.split(" (")[0]) + r".*?" + re.escape(end), re.S)
+    block = f"{begin}\n\n{demote(read(core_path))}\n\n{end}"
+    if not pattern.search(doc):
+        raise SystemExit(f"{doc.name} 缺少内核标记，无法生成")
+    return pattern.sub(lambda _m: block, doc, count=1)
 
 
 def all_refs() -> list[pathlib.Path]:
     return sorted(REF_DIR.glob("*.md"))
 
 
-def render_always_on() -> str:
-    return read(CORE)
-
-
-def render_single_file() -> str:
+def render_single() -> str:
     parts = [
-        "# DCAI 统一内核 · v2.0-alpha（单文件载体）",
+        "# DCAI 统一内核 · v2.1-alpha（单文件载体 / single-file carrier）",
         "",
         "> 用法：整份贴进系统提示词，或上传为知识库。内核部分每轮有效；附录按需查阅。",
+        "> Usage: paste into a system prompt or upload as a knowledge file. The kernel applies every turn; appendices are for reference.",
         "> 由 `scripts/build.py` 生成，请勿手改；要改规则请改 `kernel/core.md` 或 `references/`。",
         "",
         "---",
         "",
+        read(ROOT / "kernel" / "core.md").strip(),
+        "",
+        "---",
+        "",
+        "# 附录：完整工作流 / Appendices",
+        "",
     ]
-    parts.append(read(CORE).strip())
-    parts.append("")
-    parts.append("---")
-    parts.append("")
-    parts.append("# 附录：完整工作流")
-    parts.append("")
     for i, p in enumerate(all_refs(), 1):
-        parts.append(f"## 附录 {i} · {p.name}")
-        parts.append("")
-        parts.append(p.read_text(encoding="utf-8").strip())
-        parts.append("")
+        parts += [f"## 附录 {i} · {p.name}", "", read(p).strip(), ""]
     return "\n".join(parts).rstrip() + "\n"
+
+
+def targets() -> dict[pathlib.Path, str]:
+    out: dict[pathlib.Path, str] = {}
+    for doc, core, begin, end in INJECTIONS:
+        current = read(doc)
+        out[doc] = render_injection(current, core, begin, end)
+    out[DIST / "kernel-always-on.md"] = read(ROOT / "kernel" / "core.md")
+    out[DIST / "kernel-always-on.en.md"] = read(ROOT / "kernel" / "core.en.md")
+    out[DIST / "dcai-single-file.md"] = render_single()
+    return out
 
 
 def main() -> int:
@@ -94,15 +96,10 @@ def main() -> int:
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args()
 
-    targets = {
-        SKILL: render_skill(read(SKILL)),
-        DIST / "kernel-always-on.md": render_always_on(),
-        DIST / "dcai-single-file.md": render_single_file(),
-    }
-
+    plan = targets()
     if a.check:
         drift = []
-        for path, content in targets.items():
+        for path, content in plan.items():
             if not path.exists():
                 drift.append(f"{path.relative_to(ROOT)} 缺失")
             elif read(path) != content:
@@ -111,11 +108,11 @@ def main() -> int:
             print("生成物漂移：\n  " + "\n  ".join(drift), file=sys.stderr)
             print("修复：python scripts/build.py", file=sys.stderr)
             return 1
-        print(f"生成物已同步（{len(targets)} 个文件）")
+        print(f"生成物已同步（{len(plan)} 个文件）")
         return 0
 
     DIST.mkdir(parents=True, exist_ok=True)
-    for path, content in targets.items():
+    for path, content in plan.items():
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
         print(f"写入 {path.relative_to(ROOT)}  {len(content):>7} 字符")

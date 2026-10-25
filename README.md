@@ -49,7 +49,20 @@ python scripts/dcai.py forecast update --id FC-001 --p 0.68 --note "pilot data b
 python scripts/dcai.py forecast score
 ```
 
-No install step, no dependencies, Python 3.8+ standard library only. Per-carrier details: [docs/portability.md](docs/portability.md).
+No install step, no dependencies, Python 3.8+ standard library only. Per-carrier details: [docs/portability.md](docs/portability.md). English skill entry: `sh install/install.sh --en <skills-dir>`.
+
+## Documentation
+
+| Doc | What it gives you |
+|---|---|
+| [MANUAL.en.md](MANUAL.en.md) | the full manual: install matrix, kernel clause by clause, CLI reference, MCP, regression protocol, troubleshooting, FAQ |
+| [MANUAL.md](MANUAL.md) | the Chinese original, more detailed |
+| [docs/architecture.md](docs/architecture.md) | the three layers, the soft/hard boundary criteria, failure modes |
+| [docs/portability.md](docs/portability.md) | per-carrier install and capability degradation |
+| [docs/usage.md](docs/usage.md) | six recipes (research, decision, pre-mortem, system building, forecasting, audit) |
+| [docs/mcp.md](docs/mcp.md) | MCP configuration and tool semantics |
+| [docs/i18n.md](docs/i18n.md) | what is translated, glossary rules, how to contribute a translation |
+| [docs/regression.md](docs/regression.md) | the behavioural protocol and a recorded run |
 
 ## What you get out of it
 
@@ -111,13 +124,13 @@ docs/                    architecture, portability, usage recipes
 | Codex, Cursor, Aider and other `AGENTS.md` readers | native — append `dist/kernel-always-on.md` |
 | ChatBox, ChatGPT, Claude.ai, local UIs | paste `dist/dcai-single-file.md` into the system prompt |
 | CI / scripts / cron | `python scripts/dcai.py` |
-| MCP servers | wrap the CLI; not shipped yet |
+| MCP servers | `scripts/dcai_mcp.py` — stdio server, 9 tools, zero dependencies |
 
-The rule set is language-agnostic; the shipped text is Chinese-first with English metadata and trigger phrases, because the originating corpus was Chinese. English kernel translation is on the [roadmap](CHANGELOG.md).
+The rule set is language-agnostic. The kernel ships in both Chinese and English ([kernel/core.en.md](kernel/core.en.md), [SKILL.en.md](SKILL.en.md)); workflow files under `references/` are still Chinese-first — see [docs/i18n.md](docs/i18n.md) for exactly what that costs an English-only reader.
 
 ## Status
 
-`v2.0-alpha` — rules and structure are complete, and the enforcement layer is tested. The **behavioural** claims (does a model actually comply) require regression runs on each specific carrier + model; see [references/19-regression.md](references/19-regression.md) for the T01–T27 suite and the non-compensable failure list. Nothing here claims that a prompt produces technical isolation, automatic memory, or an independent audit.
+`v2.1-alpha` — rules and structure are complete, and the enforcement layer is tested. The **behavioural** claims (does a model actually comply) require regression runs on each specific carrier + model; see [references/19-regression.md](references/19-regression.md) for the T01–T27 suite and the non-compensable failure list. Nothing here claims that a prompt produces technical isolation, automatic memory, or an independent audit.
 
 ## Contributing
 

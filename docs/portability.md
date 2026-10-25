@@ -86,7 +86,7 @@ python scripts/dcai.py forecast score --json | jq .mean_brier_final
 |---|---|
 | 支持 `CLAUDE.md` / `.cursorrules` / `.windsurfrules` | 把 `dist/kernel-always-on.md` 内容贴进去，等价于 AGENTS.md |
 | 只支持一段自定义指令 | 用单文件载体，或至少贴内核 |
-| 支持 MCP | 把 `scripts/dcai.py` 包成 MCP server（未随本仓库提供，约 100 行） |
+| 支持 MCP | 直接挂 `scripts/dcai_mcp.py`（stdio，9 个工具，零依赖），见 [mcp.md](mcp.md) |
 | 企业内网、无法执行脚本 | 只用文本载体；预测部分让模型输出卡片 JSON，人工跑 CLI 校验 |
 
 ## 能力探测与降级

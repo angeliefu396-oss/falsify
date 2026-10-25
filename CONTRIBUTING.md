@@ -4,11 +4,12 @@
 
 | 路径 | 性质 | 能不能手改 |
 |---|---|---|
-| `kernel/core.md` | **真源**：常驻内核 | 能 |
-| `references/*.md` | **真源**：完整工作流 | 能 |
-| `SKILL.md` 的内核区块 | 生成物 | **不能** |
+| `kernel/core.md`、`kernel/core.en.md` | **真源**：中英常驻内核 | 能（两版要同步改） |
+| `references/*.md` | **真源**：完整工作流（当前中文） | 能 |
+| `SKILL.md` / `SKILL.en.md` 的内核区块 | 生成物 | **不能** |
 | `dist/*` | 生成物 | **不能** |
 | `tests/*` | 防腐层 | 能，但不许为了变绿放宽断言 |
+| `tests/regression/cases.json` | 行为回归用例 | 能，改动要在 PR 里说明原因 |
 
 改完真源：
 
@@ -53,7 +54,11 @@ python scripts/build.py --check     # CI 同款检查
 python -m unittest discover -s tests -v
 ```
 
-三类：`test_unit.py` 数学与校验、`test_cli.py` 真实子进程护栏与篡改检测、`test_structure.py` 单源一致性与索引完整性。
+四类：`test_unit.py` 数学与校验、`test_cli.py` 真实子进程护栏与篡改检测、`test_mcp.py` 协议层与工具层、`test_structure.py` 单源一致性、双语一致性与文档完整性。
+
+改动 `scripts/dcai_mcp.py` 时注意：它必须调用 `dcai.py` 的同一批函数，不能自带一份规则实现——否则 CLI 和 MCP 会分叉。工具名与 handler 的对应关系有测试守着（`ConsistencyTest`）。
+
+改内核/工作流还要跑行为回归：至少首轮 7 条（T01、T03、T07、T09、T13、T19、T21），协议见 [docs/regression.md](docs/regression.md)。
 
 在受限沙箱（写不进新建目录、不能开管道）里跑测试的注意事项已经在 `test_cli.py` 里处理：用普通 `mkdir` 建测试目录、用文件重定向代替 `capture_output`。改测试时别退回去用 `mkdtemp` 或 `PIPE`。
 

@@ -14,10 +14,14 @@
 
 .EXAMPLE
   powershell -NoProfile -ExecutionPolicy Bypass -File install/install.ps1 -Remove
+
+.EXAMPLE
+  powershell -NoProfile -ExecutionPolicy Bypass -File install/install.ps1 -Lang en
 #>
 [CmdletBinding()]
 param(
   [string]$Target,
+  [string]$Lang,
   [switch]$Check,
   [switch]$Remove
 )
@@ -55,7 +59,16 @@ foreach ($base in $Bases) {
   New-Item -ItemType Directory -Force -Path $base | Out-Null
   if (Test-Path -LiteralPath $dest) { Remove-Item -LiteralPath $dest -Recurse -Force }
   Copy-Item -LiteralPath $Src -Destination $dest -Recurse
-  "installed $dest"
+  foreach ($junk in @('.git', 'tests\scratch', '__pycache__', 'scripts\__pycache__', 'tests\__pycache__')) {
+    $p = Join-Path $dest $junk
+    if (Test-Path -LiteralPath $p) { Remove-Item -LiteralPath $p -Recurse -Force }
+  }
+  if ($Lang -eq 'en') {
+    Copy-Item -LiteralPath (Join-Path $dest 'SKILL.en.md') -Destination (Join-Path $dest 'SKILL.md') -Force
+    "installed $dest (english entry: SKILL.en.md -> SKILL.md)"
+  } else {
+    "installed $dest"
+  }
 }
 
 if (-not $Remove -and -not $Check) {

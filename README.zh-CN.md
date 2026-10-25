@@ -48,7 +48,20 @@ python scripts/dcai.py forecast update --id FC-001 --p 0.68 --note "试点数据
 python scripts/dcai.py forecast score
 ```
 
-零依赖，Python 3.8+ 标准库即可。各载体的具体步骤见 [docs/portability.md](docs/portability.md)。
+零依赖，Python 3.8+ 标准库即可。各载体的具体步骤见 [docs/portability.md](docs/portability.md)；英文入口用 `sh install/install.sh --en <skills目录>`。
+
+## 文档
+
+| 文档 | 你能拿到什么 |
+|---|---|
+| [MANUAL.md](MANUAL.md) | 完整说明书：安装矩阵、内核逐条解释、CLI 参考、MCP、回归协议、故障排查、FAQ |
+| [MANUAL.en.md](MANUAL.en.md) | 英文说明书 |
+| [docs/architecture.md](docs/architecture.md) | 三层架构、软硬规则判据、失效模式 |
+| [docs/portability.md](docs/portability.md) | 各载体安装与能力降级 |
+| [docs/usage.md](docs/usage.md) | 六个配方（研究/决策/预演失败/系统构建/预测/审计） |
+| [docs/mcp.md](docs/mcp.md) | MCP 配置与工具语义 |
+| [docs/i18n.md](docs/i18n.md) | 双语现状、译名表、怎么参与翻译 |
+| [docs/regression.md](docs/regression.md) | 行为回归协议与一次真实跑分 |
 
 ## 一个合格答案长什么样
 
@@ -108,13 +121,13 @@ docs/                    架构、可移植性、用法配方
 | Codex、Cursor、Aider 等读 `AGENTS.md` 的 agent | 原生，追加 `dist/kernel-always-on.md` |
 | ChatBox、ChatGPT、Claude.ai、本地 UI | 把 `dist/dcai-single-file.md` 贴进系统提示词 |
 | CI / 脚本 / 定时任务 | `python scripts/dcai.py` |
-| MCP server | 包一层 CLI 就行，暂未提供 |
+| MCP server | `scripts/dcai_mcp.py`，stdio，9 个工具，零依赖 |
 
-规则本身与语言无关；当前正文是中文优先、英文元数据与触发词，因为原始语料是中文。英文内核翻译在 [路线图](CHANGELOG.md) 里。
+规则本身与语言无关。内核提供中英双语（[kernel/core.en.md](kernel/core.en.md)、[SKILL.en.md](SKILL.en.md)）；`references/` 里的工作流文件仍是中文优先，英文读者会失去什么，[docs/i18n.md](docs/i18n.md) 里写清楚了。
 
 ## 状态
 
-`v2.0-alpha`：规则与结构完成，强制层有测试覆盖。**行为层**（模型是否真的遵守）必须在每个具体载体 + 具体模型上跑回归；套件与"不可补偿失败"清单见 [references/19-regression.md](references/19-regression.md)。本项目不声称提示词能带来技术隔离、自动记忆或独立审计。
+`v2.1-alpha`：规则与结构完成，强制层有测试覆盖。**行为层**（模型是否真的遵守）必须在每个具体载体 + 具体模型上跑回归；套件与"不可补偿失败"清单见 [references/19-regression.md](references/19-regression.md)。本项目不声称提示词能带来技术隔离、自动记忆或独立审计。
 
 ## 参与
 

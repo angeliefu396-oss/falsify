@@ -6,10 +6,32 @@
 
 ### 计划中
 
-- 英文内核译本（`kernel/core.en.md` + `dist/` 双语单文件）。
-- MCP server 包装（`scripts/dcai_mcp.py`），把 `forecast` / `decide` 暴露为工具。
 - `dcai.py` 增加 `--import` / `--export`（CSV、Obsidian 任务列表）。
-- 回归测试跑分表格模板，便于不同载体横向对比。
+- `references/` 英文译本（按文件分批，见 `docs/i18n.md`）。
+- 回归跑分表格模板，便于多载体横向对比。
+
+## [2.1.0-alpha] — 2026-10-25
+
+载体扩容与说明书。内核语义未变。
+
+### Added
+
+- **英文内核**：`kernel/core.en.md`（1:1 结构对齐，非机翻）、`SKILL.en.md`、`dist/kernel-always-on.en.md`。安装器新增 `--en` / `-Lang en`，把 `SKILL.en.md` 复制成 `SKILL.md`，客户端仍能找到标准入口名。
+- **MCP server**：`scripts/dcai_mcp.py`，手写 JSON-RPC 2.0 over stdio，零依赖，9 个工具（forecast new/update/resolve/void/list/score、decide new、check、verify），与 CLI 共用同一批函数，因此护栏完全一致。`--selftest` 可在没有客户端时自检。
+- **完整说明书**：`MANUAL.md`（中文，13 章）与 `MANUAL.en.md`（英文，同结构）。覆盖安装矩阵、内核逐条解释、工作流导读、CLI 全参数、MCP、回归协议、故障排查、FAQ、版本与迁移。
+- **回归用例数据**：`tests/regression/cases.json`，T01–T27 的 prompt / setup / 通过标准，可直接喂给自动化编排。
+- **MCP 测试**：协议层（initialize / tools/list / 通知不回应 / 解析错误 / 未知方法）、工具层（完整生命周期、二次兑现拒绝、坏输入不崩）、一致性（工具名与 handler 覆盖）。
+
+### Changed
+
+- 构建器改为多目标：同时注入 `SKILL.md`（`KERNEL-ZH`）与 `SKILL.en.md`（`KERNEL-EN`），并生成两个常驻内核。`--check` 覆盖全部 5 个生成物。
+- 安装器复制时排除 `.git`、`__pycache__`、`tests/scratch`，避免把仓库元数据塞进 skills 目录。
+- 平台差异写进文档：PowerShell 5.1 的 ExecutionPolicy 与 ANSI 解码问题、`sh` 在 `set -e` 下管道返回非 0 的静默退出、沙箱里 `mkdtemp` 的 0o700 权限问题。
+
+### Fixed
+
+- `install.sh` 在无候选目录时会因 `[ -d ] && echo` 返回非 0 而静默退出（现改为 `if … fi`）。
+- `install.ps1` 非 ASCII 字面量在 PowerShell 5.1 下解析失败（现保持纯 ASCII，并有测试守护）。
 
 ## [2.0.0-alpha] — 2026-10-25
 

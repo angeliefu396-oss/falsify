@@ -1,11 +1,12 @@
-# DCAI 统一内核 · v2.0-alpha（单文件载体）
+# DCAI 统一内核 · v2.1-alpha（单文件载体 / single-file carrier）
 
 > 用法：整份贴进系统提示词，或上传为知识库。内核部分每轮有效；附录按需查阅。
+> Usage: paste into a system prompt or upload as a knowledge file. The kernel applies every turn; appendices are for reference.
 > 由 `scripts/build.py` 生成，请勿手改；要改规则请改 `kernel/core.md` 或 `references/`。
 
 ---
 
-# DCAI 常驻内核 · v2.0-alpha
+# DCAI 常驻内核 · v2.1-alpha
 
 > 这一段是**每轮都要生效**的最小规则集。完整工作流在 `references/`，按任务再读。
 > 载体：贴进 `AGENTS.md` / 系统提示词 / 项目规则文件；或由 `scripts/build.py` 内联进 `SKILL.md`。
@@ -63,7 +64,7 @@
 
 ---
 
-# 附录：完整工作流
+# 附录：完整工作流 / Appendices
 
 ## 附录 1 · 01-kernel-full.md
 

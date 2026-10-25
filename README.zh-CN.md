@@ -2,7 +2,7 @@
 
 **先证伪，再决定。** · [English](README.md) · **简体中文**
 
-[![CI](https://github.com/falsify-kernel/falsify/actions/workflows/ci.yml/badge.svg)](https://github.com/falsify-kernel/falsify/actions/workflows/ci.yml)
+[![CI](https://github.com/angeliefu396-oss/falsify/actions/workflows/ci.yml/badge.svg)](https://github.com/angeliefu396-oss/falsify/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Status: alpha](https://img.shields.io/badge/status-v2.2--alpha-orange.svg)](CHANGELOG.md)
 
@@ -36,7 +36,7 @@
 
 ```text
 # 1. 当 Agent Skill 用（Claude Code、DSH 等支持 Agent Skills 目录的客户端）
-git clone https://github.com/falsify-kernel/falsify.git
+git clone https://github.com/angeliefu396-oss/falsify.git
 cp -r falsify ~/.claude/skills/falsify     # 或 ~/.dsh/skills/
 
 # 2. 当常驻内核用（任何读 AGENTS.md 的 agent）

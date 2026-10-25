@@ -14,7 +14,7 @@
 适用于 Claude Code、DSH，以及其它实现了同款目录约定的客户端。
 
 ```bash
-git clone https://github.com/falsify-kernel/falsify.git
+git clone https://github.com/angeliefu396-oss/falsify.git
 cp -r falsify ~/.claude/skills/falsify   # Claude Code
 cp -r falsify ~/.dsh/skills/falsify      # DSH
 ```

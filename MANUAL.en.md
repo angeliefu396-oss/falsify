@@ -40,7 +40,7 @@ Four carriers, stackable.
 ### 2.1 Agent Skills clients
 
 ```bash
-git clone https://github.com/falsify-kernel/falsify.git
+git clone https://github.com/angeliefu396-oss/falsify.git
 sh install/install.sh --en ~/.claude/skills     # English entry point
 ```
 

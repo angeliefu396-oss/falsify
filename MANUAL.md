@@ -43,7 +43,7 @@
 ### 2.1 Agent Skills 客户端
 
 ```bash
-git clone https://github.com/falsify-kernel/falsify.git
+git clone https://github.com/angeliefu396-oss/falsify.git
 sh install/install.sh                       # 自动装到检测到的 skills 目录
 sh install/install.sh ~/.claude/skills      # 或指定
 sh install/install.sh --en ~/.claude/skills # 英文入口（SKILL.en.md 变 SKILL.md）

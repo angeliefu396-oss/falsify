@@ -2,7 +2,7 @@
 
 **Falsify first, decide second.** · **English** · [简体中文](README.zh-CN.md)
 
-[![CI](https://github.com/falsify-kernel/falsify/actions/workflows/ci.yml/badge.svg)](https://github.com/falsify-kernel/falsify/actions/workflows/ci.yml)
+[![CI](https://github.com/angeliefu396-oss/falsify/actions/workflows/ci.yml/badge.svg)](https://github.com/angeliefu396-oss/falsify/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Status: alpha](https://img.shields.io/badge/status-v2.2--alpha-orange.svg)](CHANGELOG.md)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-3776ab.svg)](scripts/falsify.py)
@@ -37,7 +37,7 @@ The prompt carries judgement. The code carries arithmetic and integrity. Conflat
 
 ```text
 # 1. As an Agent Skill (Claude Code, DSH, any client implementing the Agent Skills layout)
-git clone https://github.com/falsify-kernel/falsify.git
+git clone https://github.com/angeliefu396-oss/falsify.git
 cp -r falsify ~/.claude/skills/falsify     # or ~/.dsh/skills/
 
 # 2. As an always-on kernel for any agent that reads AGENTS.md

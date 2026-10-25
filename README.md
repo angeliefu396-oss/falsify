@@ -4,10 +4,12 @@
 
 [![CI](https://github.com/dcai-kernel/dcai-unified-kernel/actions/workflows/ci.yml/badge.svg)](https://github.com/dcai-kernel/dcai-unified-kernel/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Status: alpha](https://img.shields.io/badge/status-v2.0--alpha-orange.svg)](CHANGELOG.md)
+[![Status: alpha](https://img.shields.io/badge/status-v2.1--alpha-orange.svg)](CHANGELOG.md)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-3776ab.svg)](scripts/dcai.py)
 
 A pack of rules that stops an AI from sounding certain when it isn't.
+
+**Not technical? Start with [GUIDE.md](GUIDE.md)** — a plain-language Chinese guide: what this thing is and how to use it, no jargon.
 
 It installs as an **Agent Skill**, as an **always-on `AGENTS.md` block**, as a **single prompt file**, or as a **CLI** — the same kernel, four carriers. No knowledge base, no embeddings, no vendor lock-in.
 
@@ -55,6 +57,7 @@ No install step, no dependencies, Python 3.8+ standard library only. Per-carrier
 
 | Doc | What it gives you |
 |---|---|
+| [GUIDE.md](GUIDE.md) | plain-language Chinese guide for non-technical readers: what it is, how to install, how to talk to it, how to tell it is working |
 | [MANUAL.en.md](MANUAL.en.md) | the full manual: install matrix, kernel clause by clause, CLI reference, MCP, regression protocol, troubleshooting, FAQ |
 | [MANUAL.md](MANUAL.md) | the Chinese original, more detailed |
 | [docs/architecture.md](docs/architecture.md) | the three layers, the soft/hard boundary criteria, failure modes |

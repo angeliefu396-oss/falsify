@@ -4,9 +4,11 @@
 
 [![CI](https://github.com/dcai-kernel/dcai-unified-kernel/actions/workflows/ci.yml/badge.svg)](https://github.com/dcai-kernel/dcai-unified-kernel/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Status: alpha](https://img.shields.io/badge/status-v2.0--alpha-orange.svg)](CHANGELOG.md)
+[![Status: alpha](https://img.shields.io/badge/status-v2.1--alpha-orange.svg)](CHANGELOG.md)
 
 一套让 AI **不再把"不确定"说成"确定"**的规则包。
+
+**不懂技术？先看 [GUIDE.md](GUIDE.md)** —— 纯中文、零术语，讲清这东西是什么、怎么用、怎么判断它有没有在工作。
 
 它能装成 **Agent Skill**、**常驻 AGENTS.md 段**、**单文件提示词**，或 **命令行工具**——同一个内核，四种载体。不需要知识库，不需要向量检索，不绑定任何厂商。
 
@@ -54,6 +56,7 @@ python scripts/dcai.py forecast score
 
 | 文档 | 你能拿到什么 |
 |---|---|
+| [GUIDE.md](GUIDE.md) | 纯中文入门说明书：不懂技术也能看懂，讲清是什么、怎么装、怎么用、怎么验证 |
 | [MANUAL.md](MANUAL.md) | 完整说明书：安装矩阵、内核逐条解释、CLI 参考、MCP、回归协议、故障排查、FAQ |
 | [MANUAL.en.md](MANUAL.en.md) | 英文说明书 |
 | [docs/architecture.md](docs/architecture.md) | 三层架构、软硬规则判据、失效模式 |

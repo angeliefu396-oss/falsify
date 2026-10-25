@@ -153,10 +153,11 @@ class CliHelpTest(unittest.TestCase):
 
 class DocTest(unittest.TestCase):
     def test_required_docs_exist(self):
-        for name in ("README.md", "README.zh-CN.md", "MANUAL.md", "MANUAL.en.md",
+        for name in ("README.md", "README.zh-CN.md", "GUIDE.md", "MANUAL.md", "MANUAL.en.md",
                      "LICENSE", "CHANGELOG.md", "CONTRIBUTING.md", "AGENTS.md",
                      "docs/architecture.md", "docs/portability.md", "docs/usage.md",
-                     "docs/mcp.md", "docs/i18n.md", "docs/regression.md"):
+                     "docs/mcp.md", "docs/i18n.md", "docs/regression.md",
+                     "docs/regression-results.md"):
             self.assertTrue((ROOT / name).exists(), f"缺少 {name}")
 
     def test_readme_links_resolve(self):

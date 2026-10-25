@@ -31,8 +31,8 @@
 CLI 侧配套：
 
 ```bash
-python scripts/dcai.py decide new --id DEC-001 --question "要不要从 A 转到 B"
-python scripts/dcai.py forecast new --id FC-001 --question "6 个月内 B 方向是否拿到第一个付费客户？" \
+python scripts/falsify.py decide new --id DEC-001 --question "要不要从 A 转到 B"
+python scripts/falsify.py forecast new --id FC-001 --question "6 个月内 B 方向是否拿到第一个付费客户？" \
   --deadline 2027-04-30 --p 0.45 --base-rate 0.3 --base-source "同类转型样本"
 ```
 
@@ -70,22 +70,22 @@ python scripts/dcai.py forecast new --id FC-001 --question "6 个月内 B 方向
 
 ```bash
 # 建卡：p 是你自己确认的概率；模型只能给范围
-python scripts/dcai.py forecast new --id FC-001 \
+python scripts/falsify.py forecast new --id FC-001 \
   --question "该功能是否在 2026-12-31 前达到 1 万日活？" \
   --deadline 2026-12-31 --p 0.6 --ai-low 0.55 --ai-high 0.72 \
   --base-rate 0.35 --base-source "同类功能 12 个月达标记录"
 
 # 新证据来了：追加，不覆盖
-python scripts/dcai.py forecast update --id FC-001 --p 0.68 --note "灰度留存高于基线 4pp"
+python scripts/falsify.py forecast update --id FC-001 --p 0.68 --note "灰度留存高于基线 4pp"
 
 # 到期兑现一次，落封印
-python scripts/dcai.py forecast resolve --id FC-001 --outcome 1 --source "后台统计 2026-12-31"
+python scripts/falsify.py forecast resolve --id FC-001 --outcome 1 --source "后台统计 2026-12-31"
 
 # 出报告（初始/最终 Brier、更新增益、同题集基线、分档校准、小样本警告）
-python scripts/dcai.py forecast score
+python scripts/falsify.py forecast score
 
 # 每季度查一次有没有人手工改账
-python scripts/dcai.py verify
+python scripts/falsify.py verify
 ```
 
 **复盘要分开两栏**：过程质量（问题定义、证据分层、基础率、反证、更新及时性）与现实结果（成/败、执行偏差、随机性）。好结果可能来自坏过程。

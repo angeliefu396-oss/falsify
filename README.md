@@ -1,13 +1,15 @@
-# DCAI — a portable reasoning kernel for AI agents
+# FALSIFY · 证伪
 
-**English** · [简体中文](README.zh-CN.md)
+**Falsify first, decide second.** · **English** · [简体中文](README.zh-CN.md)
 
-[![CI](https://github.com/dcai-kernel/dcai-unified-kernel/actions/workflows/ci.yml/badge.svg)](https://github.com/dcai-kernel/dcai-unified-kernel/actions/workflows/ci.yml)
+[![CI](https://github.com/falsify-kernel/falsify/actions/workflows/ci.yml/badge.svg)](https://github.com/falsify-kernel/falsify/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Status: alpha](https://img.shields.io/badge/status-v2.1--alpha-orange.svg)](CHANGELOG.md)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-3776ab.svg)](scripts/dcai.py)
+[![Status: alpha](https://img.shields.io/badge/status-v2.2--alpha-orange.svg)](CHANGELOG.md)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-3776ab.svg)](scripts/falsify.py)
 
 A pack of rules that stops an AI from sounding certain when it isn't.
+
+The name is the whole thesis: **a judgement is worth something only if reality can overturn it.** A conclusion you cannot lose a bet on is not a conclusion — it is a mood.
 
 **Not technical? Start with [GUIDE.md](GUIDE.md)** — a plain-language Chinese guide: what this thing is and how to use it, no jargon.
 
@@ -27,7 +29,7 @@ You cannot fix that with "be rigorous". You fix it by making the separation mand
 |---|---|---|
 | **Kernel** (`kernel/core.md`) | 8-step loop + six hard rules + output contract + forecast discipline. Always in context. | ~1,800 chars |
 | **Workflows** (`references/`) | 19 files: research, decision, execution, system building, forecasting, risk, audit, templates, regression tests. Read on demand, one at a time. | 0 until needed |
-| **Enforcement** (`scripts/dcai.py`) | Probability ownership, append-only updates, sealed ledger, Brier scoring, small-sample guardrails. Cannot be talked out of. | 0 context |
+| **Enforcement** (`scripts/falsify.py`) | Probability ownership, append-only updates, sealed ledger, Brier scoring, small-sample guardrails. Cannot be talked out of. | 0 context |
 
 The prompt carries judgement. The code carries arithmetic and integrity. Conflating them is why most "rigorous prompt" packs decay after a month.
 
@@ -35,20 +37,20 @@ The prompt carries judgement. The code carries arithmetic and integrity. Conflat
 
 ```text
 # 1. As an Agent Skill (Claude Code, DSH, any client implementing the Agent Skills layout)
-git clone https://github.com/dcai-kernel/dcai-unified-kernel.git
-cp -r dcai-unified-kernel ~/.claude/skills/dcai-unified-kernel     # or ~/.dsh/skills/
+git clone https://github.com/falsify-kernel/falsify.git
+cp -r falsify ~/.claude/skills/falsify     # or ~/.dsh/skills/
 
 # 2. As an always-on kernel for any agent that reads AGENTS.md
-cat dcai-unified-kernel/dist/kernel-always-on.md >> your-project/AGENTS.md
+cat falsify/dist/kernel-always-on.md >> your-project/AGENTS.md
 
 # 3. As one prompt file for plain chat UIs
-#    paste dist/dcai-single-file.md into the system prompt, or upload it as a knowledge file
+#    paste dist/falsify-single-file.md into the system prompt, or upload it as a knowledge file
 
 # 4. As enforcement
-python scripts/dcai.py forecast new --id FC-001 --question "Will X ship before 2026-12-31?" \
+python scripts/falsify.py forecast new --id FC-001 --question "Will X ship before 2026-12-31?" \
   --deadline 2026-12-31 --p 0.6 --base-rate 0.35 --base-source "comparable launches"
-python scripts/dcai.py forecast update --id FC-001 --p 0.68 --note "pilot data better than base rate"
-python scripts/dcai.py forecast score
+python scripts/falsify.py forecast update --id FC-001 --p 0.68 --note "pilot data better than base rate"
+python scripts/falsify.py forecast score
 ```
 
 No install step, no dependencies, Python 3.8+ standard library only. Per-carrier details: [docs/portability.md](docs/portability.md). English skill entry: `sh install/install.sh --en <skills-dir>`.
@@ -79,7 +81,7 @@ Feed it a messy high-stakes question and a compliant answer has this shape:
 
 ## Hard guarantees
 
-`scripts/dcai.py` refuses the moves that corrupt a forecast record:
+`scripts/falsify.py` refuses the moves that corrupt a forecast record:
 
 | Attempt | Result |
 |---|---|
@@ -90,10 +92,10 @@ Feed it a messy high-stakes question and a compliant answer has this shape:
 | Report a Brier score without a baseline or sample size | blocked by the report — N < 30 is flagged as descriptive only |
 
 ```console
-$ python scripts/dcai.py forecast resolve --id FC-001 --outcome 1 --source "release log"
+$ python scripts/falsify.py forecast resolve --id FC-001 --outcome 1 --source "release log"
 FC-001 resolved o=1 | initial Brier=0.1600 | final Brier=0.0900
 
-$ python scripts/dcai.py verify
+$ python scripts/falsify.py verify
 sealed chain intact: 5 records, hashes contiguous; card state matches ledger replay
 ```
 
@@ -112,9 +114,9 @@ SKILL.md                 the skill: kernel (generated) + routing + output contra
 kernel/core.md           single source of the always-on kernel
 references/              19 on-demand workflow files (01-kernel-full … 19-regression)
 scripts/build.py         generates SKILL.md kernel block + dist/
-scripts/dcai.py          enforcement CLI (forecast / decide / check / verify)
+scripts/falsify.py          enforcement CLI (forecast / decide / check / verify)
 dist/kernel-always-on.md paste-ready kernel for AGENTS.md
-dist/dcai-single-file.md kernel + all workflows, for chat UIs
+dist/falsify-single-file.md kernel + all workflows, for chat UIs
 tests/                   46 tests: math, guardrails, tamper detection, structure, docs
 docs/                    architecture, portability, usage recipes
 ```
@@ -125,15 +127,15 @@ docs/                    architecture, portability, usage recipes
 |---|---|
 | Claude Code, DSH and other Agent Skills clients | native — drop the directory in the skills folder |
 | Codex, Cursor, Aider and other `AGENTS.md` readers | native — append `dist/kernel-always-on.md` |
-| ChatBox, ChatGPT, Claude.ai, local UIs | paste `dist/dcai-single-file.md` into the system prompt |
-| CI / scripts / cron | `python scripts/dcai.py` |
-| MCP servers | `scripts/dcai_mcp.py` — stdio server, 9 tools, zero dependencies |
+| ChatBox, ChatGPT, Claude.ai, local UIs | paste `dist/falsify-single-file.md` into the system prompt |
+| CI / scripts / cron | `python scripts/falsify.py` |
+| MCP servers | `scripts/falsify_mcp.py` — stdio server, 9 tools, zero dependencies |
 
 The rule set is language-agnostic. The kernel ships in both Chinese and English ([kernel/core.en.md](kernel/core.en.md), [SKILL.en.md](SKILL.en.md)); workflow files under `references/` are still Chinese-first — see [docs/i18n.md](docs/i18n.md) for exactly what that costs an English-only reader.
 
 ## Status
 
-`v2.1-alpha` — rules and structure are complete, and the enforcement layer is tested. **First behavioural run** (2026-10-25, Agent Skills carrier, DeepSeek-V4.1-Flash): **25 PASS / 2 PARTIAL / 0 FAIL**, no non-compensable failure detected — full record including protocol caveats in [docs/regression-results.md](docs/regression-results.md). Behaviour still has to be re-run per carrier and per model; the suite is in [references/19-regression.md](references/19-regression.md). Nothing here claims that a prompt produces technical isolation, automatic memory, or an independent audit.
+`v2.2-alpha` — rules and structure are complete, and the enforcement layer is tested. **First behavioural run** (2026-10-25, Agent Skills carrier, DeepSeek-V4.1-Flash): **25 PASS / 2 PARTIAL / 0 FAIL**, no non-compensable failure detected — full record including protocol caveats in [docs/regression-results.md](docs/regression-results.md). Behaviour still has to be re-run per carrier and per model; the suite is in [references/19-regression.md](references/19-regression.md). Nothing here claims that a prompt produces technical isolation, automatic memory, or an independent audit.
 
 ## Contributing
 

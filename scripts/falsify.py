@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""dcai — DCAI 统一内核的硬约束层。
+"""falsify — 证伪内核的硬约束层。
 
 把「概率所有权、只追加不覆盖、兑现不可改写、Brier 与校准解释」从提示词里搬进代码，
 这样换任何模型、任何客户端，这几条都不会被模型记性稀释。
 
-零依赖，Python 3.8+。数据默认放 ./dcai/（可用 --dir 或 DCAI_HOME 覆盖）。
+零依赖，Python 3.8+。数据默认放 ./.falsify/（可用 --dir 或 FALSIFY_HOME 覆盖）。
 
-  dcai.py forecast new --id FC-001 --question "…" --deadline 2026-12-31 --p 0.6
-  dcai.py forecast update --id FC-001 --p 0.65 --note "新证据…"
-  dcai.py forecast resolve --id FC-001 --outcome 1 --source "官方公告"
-  dcai.py forecast void --id FC-001 --reason "事件取消"
-  dcai.py forecast score [--json]
-  dcai.py forecast list
-  dcai.py decide new --id DEC-001 --question "…"
-  dcai.py check        # 全量规则校验
-  dcai.py verify       # 封印哈希链校验（查手改账）
+  falsify.py forecast new --id FC-001 --question "…" --deadline 2026-12-31 --p 0.6
+  falsify.py forecast update --id FC-001 --p 0.65 --note "新证据…"
+  falsify.py forecast resolve --id FC-001 --outcome 1 --source "官方公告"
+  falsify.py forecast void --id FC-001 --reason "事件取消"
+  falsify.py forecast score [--json]
+  falsify.py forecast list
+  falsify.py decide new --id DEC-001 --question "…"
+  falsify.py check        # 全量规则校验
+  falsify.py verify       # 封印哈希链校验（查手改账）
 """
 from __future__ import annotations
 
@@ -36,7 +36,7 @@ QUESTION_HINT = ("是否", "吗", "？", "?", "会不会", "能不能", "有没�
 
 # ---------------------------------------------------------------- 存储
 def home(arg: str | None) -> Path:
-    p = Path(arg or os.environ.get("DCAI_HOME") or "dcai")
+    p = Path(arg or os.environ.get("FALSIFY_HOME") or ".falsify")
     p.mkdir(parents=True, exist_ok=True)
     (p / "decisions").mkdir(exist_ok=True)
     return p
@@ -467,8 +467,8 @@ def cmd_verify(a, root: Path) -> int:
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(prog="dcai", description="DCAI 内核硬约束层：预测卡 / 决策记录 / 校准评分")
-    ap.add_argument("--dir", help="数据目录（默认 ./dcai 或 $DCAI_HOME）")
+    ap = argparse.ArgumentParser(prog="falsify", description="FALSIFY 内核硬约束层：预测卡 / 决策记录 / 校准评分")
+    ap.add_argument("--dir", help="数据目录（默认 ./falsify 或 $FALSIFY_HOME）")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     f = sub.add_parser("forecast", help="预测卡操作").add_subparsers(dest="sub", required=True)

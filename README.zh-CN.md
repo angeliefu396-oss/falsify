@@ -1,12 +1,14 @@
-# DCAI — 给 AI agent 用的可移植认知内核
+# 证伪 · FALSIFY
 
-[English](README.md) · **简体中文**
+**先证伪，再决定。** · [English](README.md) · **简体中文**
 
-[![CI](https://github.com/dcai-kernel/dcai-unified-kernel/actions/workflows/ci.yml/badge.svg)](https://github.com/dcai-kernel/dcai-unified-kernel/actions/workflows/ci.yml)
+[![CI](https://github.com/falsify-kernel/falsify/actions/workflows/ci.yml/badge.svg)](https://github.com/falsify-kernel/falsify/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Status: alpha](https://img.shields.io/badge/status-v2.1--alpha-orange.svg)](CHANGELOG.md)
+[![Status: alpha](https://img.shields.io/badge/status-v2.2--alpha-orange.svg)](CHANGELOG.md)
 
 一套让 AI **不再把"不确定"说成"确定"**的规则包。
+
+名字就是全部主张：**一个判断值不值钱，只看现实能不能推翻它。** 无法下注的结论不是结论，是情绪。
 
 **不懂技术？先看 [GUIDE.md](GUIDE.md)** —— 纯中文、零术语，讲清这东西是什么、怎么用、怎么判断它有没有在工作。
 
@@ -26,7 +28,7 @@
 |---|---|---|
 | **内核**（`kernel/core.md`） | 每轮八步 + 六条铁律 + 输出合同 + 预测纪律 | 约 1,800 字符 |
 | **工作流**（`references/`） | 19 个文件：研究、决策、执行、系统构建、预测、风险、审计、模板、回归测试。按需读一个。 | 用到才花 |
-| **强制层**（`scripts/dcai.py`） | 概率所有权、只追加、封印账本、Brier 与校准护栏。模型说不掉。 | 0 |
+| **强制层**（`scripts/falsify.py`） | 概率所有权、只追加、封印账本、Brier 与校准护栏。模型说不掉。 | 0 |
 
 判断力放提示词，算术和完整性放代码。把两者混在一起，就是大多数"严谨提示词"包一个月后开始退化的原因。
 
@@ -34,20 +36,20 @@
 
 ```text
 # 1. 当 Agent Skill 用（Claude Code、DSH 等支持 Agent Skills 目录的客户端）
-git clone https://github.com/dcai-kernel/dcai-unified-kernel.git
-cp -r dcai-unified-kernel ~/.claude/skills/dcai-unified-kernel     # 或 ~/.dsh/skills/
+git clone https://github.com/falsify-kernel/falsify.git
+cp -r falsify ~/.claude/skills/falsify     # 或 ~/.dsh/skills/
 
 # 2. 当常驻内核用（任何读 AGENTS.md 的 agent）
-cat dcai-unified-kernel/dist/kernel-always-on.md >> 你的项目/AGENTS.md
+cat falsify/dist/kernel-always-on.md >> 你的项目/AGENTS.md
 
 # 3. 当单文件提示词用（普通聊天框）
-#    把 dist/dcai-single-file.md 整份贴进系统提示词，或上传为知识库
+#    把 dist/falsify-single-file.md 整份贴进系统提示词，或上传为知识库
 
 # 4. 当强制层用
-python scripts/dcai.py forecast new --id FC-001 --question "是否在 2026-12-31 前上线？" \
+python scripts/falsify.py forecast new --id FC-001 --question "是否在 2026-12-31 前上线？" \
   --deadline 2026-12-31 --p 0.6 --base-rate 0.35 --base-source "同类项目"
-python scripts/dcai.py forecast update --id FC-001 --p 0.68 --note "试点数据好于基础率"
-python scripts/dcai.py forecast score
+python scripts/falsify.py forecast update --id FC-001 --p 0.68 --note "试点数据好于基础率"
+python scripts/falsify.py forecast score
 ```
 
 零依赖，Python 3.8+ 标准库即可。各载体的具体步骤见 [docs/portability.md](docs/portability.md)；英文入口用 `sh install/install.sh --en <skills目录>`。
@@ -76,7 +78,7 @@ python scripts/dcai.py forecast score
 
 ## 硬约束
 
-`scripts/dcai.py` 会直接驳回污染预测记录的动作：
+`scripts/falsify.py` 会直接驳回污染预测记录的动作：
 
 | 你想干的事 | 结果 |
 |---|---|
@@ -87,10 +89,10 @@ python scripts/dcai.py forecast score
 | 只报 Brier 不给基线、不给样本量 | 报告层拦截——N<30 一律标"仅描述" |
 
 ```console
-$ python scripts/dcai.py forecast resolve --id FC-001 --outcome 1 --source "发布记录"
+$ python scripts/falsify.py forecast resolve --id FC-001 --outcome 1 --source "发布记录"
 FC-001 已兑现 o=1｜初始 Brier=0.1600｜最终 Brier=0.0900
 
-$ python scripts/dcai.py verify
+$ python scripts/falsify.py verify
 封印链完整：5 条记录，哈希连续；卡片状态与账本重放一致。
 ```
 
@@ -109,9 +111,9 @@ SKILL.md                 skill 本体：内核（生成）+ 路由 + 输出合�
 kernel/core.md           常驻内核的唯一真源
 references/              19 个按需工作流文件（01-kernel-full … 19-regression）
 scripts/build.py         生成 SKILL.md 内核区块与 dist/
-scripts/dcai.py          强制层 CLI（forecast / decide / check / verify）
+scripts/falsify.py          强制层 CLI（forecast / decide / check / verify）
 dist/kernel-always-on.md 可直接粘进 AGENTS.md 的内核
-dist/dcai-single-file.md 内核 + 全部工作流，给聊天框用
+dist/falsify-single-file.md 内核 + 全部工作流，给聊天框用
 tests/                   46 个测试：数学、护栏、篡改检测、结构、文档
 docs/                    架构、可移植性、用法配方
 ```
@@ -122,15 +124,15 @@ docs/                    架构、可移植性、用法配方
 |---|---|
 | Claude Code、DSH 等 Agent Skills 客户端 | 原生，把目录丢进 skills 目录即可 |
 | Codex、Cursor、Aider 等读 `AGENTS.md` 的 agent | 原生，追加 `dist/kernel-always-on.md` |
-| ChatBox、ChatGPT、Claude.ai、本地 UI | 把 `dist/dcai-single-file.md` 贴进系统提示词 |
-| CI / 脚本 / 定时任务 | `python scripts/dcai.py` |
-| MCP server | `scripts/dcai_mcp.py`，stdio，9 个工具，零依赖 |
+| ChatBox、ChatGPT、Claude.ai、本地 UI | 把 `dist/falsify-single-file.md` 贴进系统提示词 |
+| CI / 脚本 / 定时任务 | `python scripts/falsify.py` |
+| MCP server | `scripts/falsify_mcp.py`，stdio，9 个工具，零依赖 |
 
 规则本身与语言无关。内核提供中英双语（[kernel/core.en.md](kernel/core.en.md)、[SKILL.en.md](SKILL.en.md)）；`references/` 里的工作流文件仍是中文优先，英文读者会失去什么，[docs/i18n.md](docs/i18n.md) 里写清楚了。
 
 ## 状态
 
-`v2.1-alpha`：规则与结构完成，强制层有测试覆盖。**首轮行为回归**（2026-10-25，Skill 载体，DeepSeek-V4.1-Flash）：**25 PASS / 2 PARTIAL / 0 FAIL**，未检出不可补偿失败；含协议偏差与待核查项的完整记录见 [docs/regression-results.md](docs/regression-results.md)。行为层仍须逐载体、逐模型重跑，套件在 [references/19-regression.md](references/19-regression.md)。本项目不声称提示词能带来技术隔离、自动记忆或独立审计。
+`v2.2-alpha`：规则与结构完成，强制层有测试覆盖。**首轮行为回归**（2026-10-25，Skill 载体，DeepSeek-V4.1-Flash）：**25 PASS / 2 PARTIAL / 0 FAIL**，未检出不可补偿失败；含协议偏差与待核查项的完整记录见 [docs/regression-results.md](docs/regression-results.md)。行为层仍须逐载体、逐模型重跑，套件在 [references/19-regression.md](references/19-regression.md)。本项目不声称提示词能带来技术隔离、自动记忆或独立审计。
 
 ## 参与
 

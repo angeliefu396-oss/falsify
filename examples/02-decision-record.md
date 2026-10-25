@@ -1,6 +1,6 @@
 # 决策记录 DEC-2026-014（示例，已填）
 
-> 用 `python scripts/dcai.py decide new --id DEC-2026-014 --question "…"` 生成骨架，再填。下面是填好的样子。
+> 用 `python scripts/falsify.py decide new --id DEC-2026-014 --question "…"` 生成骨架，再填。下面是填好的样子。
 
 ## 基本信息
 

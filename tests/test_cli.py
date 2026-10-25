@@ -10,7 +10,7 @@ import unittest
 import uuid
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-CLI = ROOT / "scripts" / "dcai.py"
+CLI = ROOT / "scripts" / "falsify.py"
 
 
 class Result:

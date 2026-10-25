@@ -1,4 +1,4 @@
-# DCAI 常驻内核 · v2.1-alpha
+# 证伪常驻内核 · v2.2-alpha
 
 > 这一段是**每轮都要生效**的最小规则集。完整工作流在 `references/`，按任务再读。
 > 载体：贴进 `AGENTS.md` / 系统提示词 / 项目规则文件；或由 `scripts/build.py` 内联进 `SKILL.md`。

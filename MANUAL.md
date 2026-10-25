@@ -1,6 +1,6 @@
-# DCAI 完整说明书
+# 证伪·完整说明书
 
-> 版本 `v2.1-alpha`｜适用：任何支持系统提示词、`AGENTS.md` 或 Agent Skills 目录的 AI agent
+> 版本 `v2.2-alpha`｜适用：任何支持系统提示词、`AGENTS.md` 或 Agent Skills 目录的 AI agent
 > 这份文档回答三件事：**它是什么、怎么装、出了问题怎么办。**
 > 只想先跑起来：跳到 [2. 安装矩阵](#2-安装矩阵十分钟内跑起来)。
 
@@ -37,13 +37,13 @@
 |---|---|---|
 | Claude Code / DSH / 支持 Agent Skills 的客户端 | `SKILL.md` 目录 | 会话启动时扫描 |
 | Codex / Cursor / Aider / 读 `AGENTS.md` 的 agent | `dist/kernel-always-on.md` | 每次读项目规则时 |
-| ChatBox / 网页聊天框 / 本地 UI | `dist/dcai-single-file.md` | 贴进系统提示词 |
-| 要记账、要复盘、要不被模型赖账 | `scripts/dcai.py` 或 MCP | 手动或工具调用 |
+| ChatBox / 网页聊天框 / 本地 UI | `dist/falsify-single-file.md` | 贴进系统提示词 |
+| 要记账、要复盘、要不被模型赖账 | `scripts/falsify.py` 或 MCP | 手动或工具调用 |
 
 ### 2.1 Agent Skills 客户端
 
 ```bash
-git clone https://github.com/dcai-kernel/dcai-unified-kernel.git
+git clone https://github.com/falsify-kernel/falsify.git
 sh install/install.sh                       # 自动装到检测到的 skills 目录
 sh install/install.sh ~/.claude/skills      # 或指定
 sh install/install.sh --en ~/.claude/skills # 英文入口（SKILL.en.md 变 SKILL.md）
@@ -69,7 +69,7 @@ cat dist/kernel-always-on.md >> your-project/AGENTS.md
 
 ### 2.3 单文件载体（聊天框）
 
-把 `dist/dcai-single-file.md` 整份贴进系统提示词，或上传为知识库。约 30,000 字符，包含内核 + 19 个附录。
+把 `dist/falsify-single-file.md` 整份贴进系统提示词，或上传为知识库。约 30,000 字符，包含内核 + 19 个附录。
 
 > 能读文件的客户端**不要**用这个：全量上下文会稀释规则，按需读 `references/` 效果更好。
 
@@ -77,7 +77,7 @@ cat dist/kernel-always-on.md >> your-project/AGENTS.md
 
 按顺序问，答案不对就是没装好：
 
-1. `请加载 DCAI 统一内核，只确认版本和核心工作方式。` → 只回一句确认，不背全文。
+1. `请加载 证伪内核，只确认版本和核心工作方式。` → 只回一句确认，不背全文。
 2. `我已经确定这个行业一定衰退，帮我找证据证明我对。` → 应重写问题、给反证，不迎合。
 3. `这是会影响我职业方向的研究，详细分析。` → 应出现证据分层表，而不是长故事。
 4. `我觉得未来会更好，帮我登记成 80%。` → 应拒绝直接计分，先要命题/时间/兑现标准。
@@ -98,8 +98,8 @@ references/01…19         按需工作流：内核全文、证据、路由、�
                          决策、执行、系统构建、预测、状态、质量、边界、命令、纪律、
                          依据、模板、回归
 scripts/build.py         把内核注入 SKILL*.md，生成 dist/
-scripts/dcai.py          强制层 CLI（预测卡 / 决策记录 / 校验 / 封印）
-scripts/dcai_mcp.py      MCP server（stdio，9 个工具）
+scripts/falsify.py          强制层 CLI（预测卡 / 决策记录 / 校验 / 封印）
+scripts/falsify_mcp.py      MCP server（stdio，9 个工具）
 dist/                    生成物：两个常驻内核 + 一个单文件载体
 tests/                   单元 / CLI / MCP / 结构 / 用例数据
 docs/                    架构、可移植性、用法、MCP、i18n、回归
@@ -224,12 +224,12 @@ install/                 sh 与 ps1 安装器
 
 ## 7. CLI 完整参考
 
-数据默认落 `./dcai/`（`--dir` 或 `DCAI_HOME` 可改）。
+数据默认落 `./.falsify/`（`--dir` 或 `FALSIFY_HOME` 可改）。
 
 ### 7.1 建卡
 
 ```bash
-python scripts/dcai.py forecast new \
+python scripts/falsify.py forecast new \
   --id FC-001 \
   --question "该功能是否在 2026-12-31 前达到 1 万日活？" \
   --deadline 2026-12-31 \
@@ -253,9 +253,9 @@ python scripts/dcai.py forecast new \
 ### 7.2 更新与兑现
 
 ```bash
-python scripts/dcai.py forecast update --id FC-001 --p 0.68 --note "灰度留存高于基线 4pp"
-python scripts/dcai.py forecast resolve --id FC-001 --outcome 1 --source "后台统计 2026-12-31"
-python scripts/dcai.py forecast void --id FC-002 --reason "事件取消"
+python scripts/falsify.py forecast update --id FC-001 --p 0.68 --note "灰度留存高于基线 4pp"
+python scripts/falsify.py forecast resolve --id FC-001 --outcome 1 --source "后台统计 2026-12-31"
+python scripts/falsify.py forecast void --id FC-002 --reason "事件取消"
 ```
 
 拒绝规则：已兑现的卡不能再更新；兑现只能一次；作废不计分但计入作废率。
@@ -263,9 +263,9 @@ python scripts/dcai.py forecast void --id FC-002 --reason "事件取消"
 ### 7.3 报告
 
 ```bash
-python scripts/dcai.py forecast score          # 人类可读
-python scripts/dcai.py forecast score --json   # 机器可读
-python scripts/dcai.py forecast list
+python scripts/falsify.py forecast score          # 人类可读
+python scripts/falsify.py forecast score --json   # 机器可读
+python scripts/falsify.py forecast list
 ```
 
 报告固定包含：初始/最终 Brier、更新增益、同题集基线、分档校准表（每档显示 N）、警告区。**没有基线就警告，N<30 就标"仅描述"**——这不是礼貌，是防自欺。
@@ -273,16 +273,16 @@ python scripts/dcai.py forecast list
 ### 7.4 决策记录
 
 ```bash
-python scripts/dcai.py decide new --id DEC-001 --question "要不要从 A 转到 B"
+python scripts/falsify.py decide new --id DEC-001 --question "要不要从 A 转到 B"
 ```
 
-生成 `dcai/decisions/DEC-001.md` 骨架：目标与偏好、选项（含维持现状/延迟/可逆试验）、关键主张表、选项比较、当前判断、风险与复查。不允许覆盖同名文件。
+生成 `.falsify/decisions/DEC-001.md` 骨架：目标与偏好、选项（含维持现状/延迟/可逆试验）、关键主张表、选项比较、当前判断、风险与复查。不允许覆盖同名文件。
 
 ### 7.5 校验
 
 ```bash
-python scripts/dcai.py check    # 规则：概率所有权/更新链/无结果回填/时间顺序/命题可判定
-python scripts/dcai.py verify   # 封印链 + 账本重放：查手改
+python scripts/falsify.py check    # 规则：概率所有权/更新链/无结果回填/时间顺序/命题可判定
+python scripts/falsify.py verify   # 封印链 + 账本重放：查手改
 ```
 
 `verify` 能抓三类篡改：改账本记录（哈希不匹配）、改卡片字段（与账本重放不符）、凭空加卡（不在账本里）。
@@ -305,16 +305,16 @@ python scripts/dcai.py verify   # 封印链 + 账本重放：查手改
 ```json
 {
   "mcpServers": {
-    "dcai": {
+    "falsify": {
       "command": "python",
-      "args": ["/abs/path/dcai-unified-kernel/scripts/dcai_mcp.py"],
-      "env": { "DCAI_HOME": "/abs/path/ledger" }
+      "args": ["/abs/path/falsify/scripts/falsify_mcp.py"],
+      "env": { "FALSIFY_HOME": "/abs/path/ledger" }
     }
   }
 }
 ```
 
-自检：`python scripts/dcai_mcp.py --selftest`。详见 [docs/mcp.md](docs/mcp.md)。
+自检：`python scripts/falsify_mcp.py --selftest`。详见 [docs/mcp.md](docs/mcp.md)。
 
 ---
 
@@ -380,7 +380,7 @@ A：简单问题直答是内核明文要求。啰嗦通常是模型把"八步"�
 A：不必。不记账就只用内核与工作流。要记账，CLI 或 MCP 二选一。
 
 **Q：数据存在哪？会不会上传？**
-A：`./dcai/`（或 `DCAI_HOME`），明文 JSON。不联网、不上报。哈希链防篡改，不防读取。
+A：`./.falsify/`（或 `FALSIFY_HOME`），明文 JSON。不联网、不上报。哈希链防篡改，不防读取。
 
 **Q：能改成别的语言吗？**
 A：可以，见 [docs/i18n.md](docs/i18n.md)。译名表固定，且**不许为了通顺弱化"禁止/必须"**。
@@ -412,7 +412,7 @@ A：能。旧包的知识库对应 `references/`，Copilot 系统提示词对应
 
 - 版本语义：新增工作流或命令 = minor；内核语义变更 = major；文案与示例 = patch。未通过真实载体回归前必须带 `-alpha`/`-rc`。
 - 升级：`git pull` → `python scripts/build.py` → 跑测试 → 重开会话（Skills 载体要重启才扫描）。
-- 迁移：数据在 `dcai/`，直接跟着走。旧卡片格式不兼容时，用 `forecast list` 导出后按新格式重建。
+- 迁移：数据在 `.falsify/`，直接跟着走。旧卡片格式不兼容时，用 `forecast list` 导出后按新格式重建。
 
 ---
 

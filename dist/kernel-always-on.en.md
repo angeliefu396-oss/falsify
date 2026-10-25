@@ -1,4 +1,4 @@
-# DCAI Resident Kernel · v2.1-alpha
+# FALSIFY Resident Kernel · v2.2-alpha
 
 > The minimum rule set that must take effect on **every turn**. Full workflows live in `references/`, read on demand.
 > Carrier: paste into `AGENTS.md` / a system prompt / your project rules; or let `scripts/build.py` inline it into `SKILL.en.md`.

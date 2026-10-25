@@ -60,7 +60,7 @@ def all_refs() -> list[pathlib.Path]:
 
 def render_single() -> str:
     parts = [
-        "# DCAI 统一内核 · v2.1-alpha（单文件载体 / single-file carrier）",
+        "# 证伪内核 · v2.2-alpha（单文件载体 / single-file carrier）",
         "",
         "> 用法：整份贴进系统提示词，或上传为知识库。内核部分每轮有效；附录按需查阅。",
         "> Usage: paste into a system prompt or upload as a knowledge file. The kernel applies every turn; appendices are for reference.",
@@ -87,7 +87,7 @@ def targets() -> dict[pathlib.Path, str]:
         out[doc] = render_injection(current, core, begin, end)
     out[DIST / "kernel-always-on.md"] = read(ROOT / "kernel" / "core.md")
     out[DIST / "kernel-always-on.en.md"] = read(ROOT / "kernel" / "core.en.md")
-    out[DIST / "dcai-single-file.md"] = render_single()
+    out[DIST / "falsify-single-file.md"] = render_single()
     return out
 
 

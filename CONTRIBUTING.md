@@ -56,7 +56,7 @@ python -m unittest discover -s tests -v
 
 四类：`test_unit.py` 数学与校验、`test_cli.py` 真实子进程护栏与篡改检测、`test_mcp.py` 协议层与工具层、`test_structure.py` 单源一致性、双语一致性与文档完整性。
 
-改动 `scripts/dcai_mcp.py` 时注意：它必须调用 `dcai.py` 的同一批函数，不能自带一份规则实现——否则 CLI 和 MCP 会分叉。工具名与 handler 的对应关系有测试守着（`ConsistencyTest`）。
+改动 `scripts/falsify_mcp.py` 时注意：它必须调用 `falsify.py` 的同一批函数，不能自带一份规则实现——否则 CLI 和 MCP 会分叉。工具名与 handler 的对应关系有测试守着（`ConsistencyTest`）。
 
 改内核/工作流还要跑行为回归：至少首轮 7 条（T01、T03、T07、T09、T13、T19、T21），协议见 [docs/regression.md](docs/regression.md)。
 

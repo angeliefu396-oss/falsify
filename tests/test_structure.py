@@ -26,8 +26,8 @@ def load(name, rel):
     return mod
 
 
-build = load("dcai_build", "scripts/build.py")
-dcai = load("dcai_cli", "scripts/dcai.py")
+build = load("falsify_build", "scripts/build.py")
+falsify = load("falsify_cli", "scripts/falsify.py")
 
 DESC = re.compile(r"^description:\s*(.+)$", re.M)
 
@@ -36,13 +36,13 @@ class FrontmatterTest(unittest.TestCase):
     def test_zh_has_frontmatter(self):
         self.assertTrue(SKILL.startswith("---\n"))
         head = SKILL.split("---", 2)[1]
-        self.assertIn("name: dcai-unified-kernel", head)
+        self.assertIn("name: falsify", head)
         self.assertIn("license: MIT", head)
 
     def test_en_has_frontmatter(self):
         self.assertTrue(SKILL_EN.startswith("---\n"))
         head = SKILL_EN.split("---", 2)[1]
-        self.assertIn("name: dcai-unified-kernel", head)
+        self.assertIn("name: falsify", head)
         self.assertIn("license: MIT", head)
 
     def test_descriptions_within_spec(self):
@@ -124,7 +124,7 @@ class IndexTest(unittest.TestCase):
 
 class DistTest(unittest.TestCase):
     def test_single_file_contains_every_ref(self):
-        single = (DIST / "dcai-single-file.md").read_text(encoding="utf-8")
+        single = (DIST / "falsify-single-file.md").read_text(encoding="utf-8")
         for p in REFS:
             first = p.read_text(encoding="utf-8").splitlines()[0]
             self.assertIn(first, single, f"{p.name} 的标题未进入单文件载体")
@@ -145,7 +145,7 @@ class CliHelpTest(unittest.TestCase):
     def test_help_works(self):
         buf = io.StringIO()
         with contextlib.redirect_stdout(buf), self.assertRaises(SystemExit) as ctx:
-            dcai.main(["--help"])
+            falsify.main(["--help"])
         self.assertEqual(ctx.exception.code, 0)
         self.assertIn("forecast", buf.getvalue())
         self.assertIn("decide", buf.getvalue())

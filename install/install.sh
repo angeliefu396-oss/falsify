@@ -1,14 +1,14 @@
 #!/usr/bin/env sh
-# 把 dcai-unified-kernel 安装到 Agent Skills 目录。
+# 把 falsify 安装到 Agent Skills 目录。
 #
 #   sh install/install.sh                 自动探测并安装到所有已存在的 skills 目录
-#   sh install/install.sh ~/some/skills   装到指定目录（会创建 <dest>/dcai-unified-kernel）
+#   sh install/install.sh ~/some/skills   装到指定目录（会创建 <dest>/falsify）
 #   sh install/install.sh --en            英文入口：SKILL.en.md 复制成 SKILL.md
 #   sh install/install.sh --check         只报告会装到哪里
 #   sh install/install.sh --remove        从已安装位置移除
 set -eu
 
-NAME="dcai-unified-kernel"
+NAME="falsify"
 SRC="$(cd "$(dirname "$0")/.." && pwd)"
 
 candidates() {
@@ -78,5 +78,5 @@ done
 if [ "$REMOVE" -eq 0 ] && [ "$CHECK" -eq 0 ]; then
   echo
   echo "新开一个 agent 会话后生效（skills 目录通常在会话启动时扫描）。"
-  echo "验证：问「请加载 DCAI 统一内核，只确认版本和核心工作方式。」"
+  echo "验证：问「请加载 证伪内核，只确认版本和核心工作方式。」"
 fi

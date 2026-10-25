@@ -1,4 +1,4 @@
-# DCAI 统一内核 —— 常用命令
+# 证伪内核 —— 常用命令
 # 需要 python3（Windows 上可用 `python` 或 `py -3`）
 
 PY ?= python

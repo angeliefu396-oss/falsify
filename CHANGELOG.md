@@ -6,9 +6,24 @@
 
 ### 计划中
 
-- `dcai.py` 增加 `--import` / `--export`（CSV、Obsidian 任务列表）。
+- `falsify.py` 增加 `--import` / `--export`（CSV、Obsidian 任务列表）。
 - `references/` 英文译本（按文件分批，见 `docs/i18n.md`）。
 - 回归跑分表格模板，便于多载体横向对比。
+
+## [2.2.0-alpha] — 2026-10-25
+
+改名与重写入门文档。内核语义未变。
+
+### Changed
+
+- **项目改名：DCAI → 证伪（FALSIFY）**。理由写进 README 首屏：一个判断的价值不看它能否被证明，只看它能否被推翻。连带变化：仓库名 `falsify`、技能名 `falsify`、CLI `scripts/falsify.py`、MCP `scripts/falsify_mcp.py`（工具前缀 `falsify_*`）、数据目录 `.falsify/`、环境变量 `FALSIFY_HOME`、单文件载体 `dist/falsify-single-file.md`。
+- **`GUIDE.md` 重写**：13 节，新增"三种看起来很确定"的分类、完整的裸辞分析示例对话、五个真信号 / 五个假信号对照、名字由来（波普尔式可证伪性）。定位仍然是"给任何人的说明书"——零术语，不需要懂技术。
+- 两个 README 的首屏改为名字 + 主张（`先证伪，再决定。` / `Falsify first, decide second.`）。
+
+### Notes
+
+- 改名不改变任何规则、评分口径或护栏行为；`tests/` 67 项在改名后全部通过。
+- 旧名 `dcai` 的数据目录不会被自动迁移：如已有账本，手工把 `dcai/` 改名为 `.falsify/`，或用 `--dir` 指回旧路径。
 
 ## [2.1.0-alpha] — 2026-10-25
 
@@ -17,7 +32,7 @@
 ### Added
 
 - **英文内核**：`kernel/core.en.md`（1:1 结构对齐，非机翻）、`SKILL.en.md`、`dist/kernel-always-on.en.md`。安装器新增 `--en` / `-Lang en`，把 `SKILL.en.md` 复制成 `SKILL.md`，客户端仍能找到标准入口名。
-- **MCP server**：`scripts/dcai_mcp.py`，手写 JSON-RPC 2.0 over stdio，零依赖，9 个工具（forecast new/update/resolve/void/list/score、decide new、check、verify），与 CLI 共用同一批函数，因此护栏完全一致。`--selftest` 可在没有客户端时自检。
+- **MCP server**：`scripts/falsify_mcp.py`，手写 JSON-RPC 2.0 over stdio，零依赖，9 个工具（forecast new/update/resolve/void/list/score、decide new、check、verify），与 CLI 共用同一批函数，因此护栏完全一致。`--selftest` 可在没有客户端时自检。
 - **完整说明书**：`MANUAL.md`（中文，13 章）与 `MANUAL.en.md`（英文，同结构）。覆盖安装矩阵、内核逐条解释、工作流导读、CLI 全参数、MCP、回归协议、故障排查、FAQ、版本与迁移。
 - **入门说明书**：`GUIDE.md`，纯中文、零术语，面向完全不懂技术的人。三组"普通 AI vs 装了规则包的 AI"对照对话，讲清它治什么病、怎么装、怎么说人话、怎么判断它在不在工作、以及它不管什么。
 - **回归用例数据**：`tests/regression/cases.json`，T01–T27 的 prompt / setup / 通过标准，可直接喂给自动化编排。
@@ -42,8 +57,8 @@
 
 ### Added
 
-- **三层架构**：常驻内核（`kernel/core.md`）、按需工作流（`references/`，19 个文件）、强制层（`scripts/dcai.py`）。
-- **四载体**：Agent Skills（`SKILL.md`）、`AGENTS.md` 常驻段、单文件提示词（`dist/dcai-single-file.md`）、命令行。
+- **三层架构**：常驻内核（`kernel/core.md`）、按需工作流（`references/`，19 个文件）、强制层（`scripts/falsify.py`）。
+- **四载体**：Agent Skills（`SKILL.md`）、`AGENTS.md` 常驻段、单文件提示词（`dist/falsify-single-file.md`）、命令行。
 - **单一真源构建**：`scripts/build.py` 把内核注入 `SKILL.md` 并生成 `dist/`；`--check` 供 CI 检测漂移。
 - **强制层 CLI**：`forecast new/update/resolve/void/score/list`、`decide new`、`check`、`verify`。
   - 概率所有权校验（AI 只能给范围，不能落数）。

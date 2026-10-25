@@ -14,9 +14,9 @@
 适用于 Claude Code、DSH，以及其它实现了同款目录约定的客户端。
 
 ```bash
-git clone https://github.com/dcai-kernel/dcai-unified-kernel.git
-cp -r dcai-unified-kernel ~/.claude/skills/dcai-unified-kernel   # Claude Code
-cp -r dcai-unified-kernel ~/.dsh/skills/dcai-unified-kernel      # DSH
+git clone https://github.com/falsify-kernel/falsify.git
+cp -r falsify ~/.claude/skills/falsify   # Claude Code
+cp -r falsify ~/.dsh/skills/falsify      # DSH
 ```
 
 Windows（PowerShell 5.1 默认禁止运行脚本，且会把无 BOM 的 UTF-8 当 ANSI 读，所以用 Bypass）：
@@ -29,16 +29,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\install\install.ps1 -Targe
 或者手工复制：
 
 ```powershell
-Copy-Item -Recurse .\dcai-unified-kernel "$env:USERPROFILE\.dsh\skills\dcai-unified-kernel"
+Copy-Item -Recurse .\falsify "$env:USERPROFILE\.dsh\skills\falsify"
 ```
 
 装好后**新开一个会话**（技能目录通常在会话启动时扫描）。触发方式：直接描述任务即可，或点名：
 
-> 用 dcai-unified-kernel 处理：我在考虑换行业，但还没决定。
+> 用 falsify 处理：我在考虑换行业，但还没决定。
 
 验证：
 
-> 请加载 DCAI 统一内核，只确认版本和核心工作方式。
+> 请加载 证伪内核，只确认版本和核心工作方式。
 
 期望回应只有一句确认，不复述全文、不展示路由日志。
 
@@ -47,22 +47,22 @@ Copy-Item -Recurse .\dcai-unified-kernel "$env:USERPROFILE\.dsh\skills\dcai-unif
 Codex、Cursor、Aider、Windsurf、以及各类 CLI agent 都会读项目根的 `AGENTS.md`。
 
 ```bash
-cat dcai-unified-kernel/dist/kernel-always-on.md >> your-project/AGENTS.md
+cat falsify/dist/kernel-always-on.md >> your-project/AGENTS.md
 ```
 
 或者在 `AGENTS.md` 里指过去（能读文件的话这样更省 context）：
 
 ```markdown
 ## Reasoning
-Follow the DCAI kernel in `vendor/dcai-unified-kernel/kernel/core.md`.
-Pull one workflow file from `vendor/dcai-unified-kernel/references/` when the task is serious.
-For forecasts, use `python vendor/dcai-unified-kernel/scripts/dcai.py`.
+Follow the FALSIFY kernel in `vendor/falsify/kernel/core.md`.
+Pull one workflow file from `vendor/falsify/references/` when the task is serious.
+For forecasts, use `python vendor/falsify/scripts/falsify.py`.
 ```
 
 ## 3. 普通聊天框（ChatBox、ChatGPT、Claude.ai、本地 UI）
 
 ```text
-把 dist/dcai-single-file.md 整份粘贴为「系统提示词 / 自定义指令 / Copilot」。
+把 dist/falsify-single-file.md 整份粘贴为「系统提示词 / 自定义指令 / Copilot」。
 ```
 
 如果你的客户端支持知识库/文件上传，两种放法都行，但**别只放知识库**：检索式读取可能整轮没召回内核。最稳的是系统提示词放内核（`dist/kernel-always-on.md`），知识库放工作流（`references/` 合并成一个文件）。
@@ -70,14 +70,14 @@ For forecasts, use `python vendor/dcai-unified-kernel/scripts/dcai.py`.
 ## 4. 命令行 / CI / 定时任务
 
 ```bash
-python scripts/dcai.py forecast new --id FC-001 --question "…" --deadline 2026-12-31 --p 0.6
-python scripts/dcai.py forecast score --json | jq .mean_brier_final
+python scripts/falsify.py forecast new --id FC-001 --question "…" --deadline 2026-12-31 --p 0.6
+python scripts/falsify.py forecast score --json | jq .mean_brier_final
 ```
 
-数据落在 `./dcai/`；用 `--dir` 或 `DCAI_HOME` 指定到别处（例如 obsidian vault）。放进 cron 就能每周提醒到期卡：
+数据落在 `./.falsify/`；用 `--dir` 或 `FALSIFY_HOME` 指定到别处（例如 obsidian vault）。放进 cron 就能每周提醒到期卡：
 
 ```cron
-0 9 * * 1 cd /path/to/project && python /path/to/dcai.py forecast list
+0 9 * * 1 cd /path/to/project && python /path/to/falsify.py forecast list
 ```
 
 ## 5. 其它客户端
@@ -86,7 +86,7 @@ python scripts/dcai.py forecast score --json | jq .mean_brier_final
 |---|---|
 | 支持 `CLAUDE.md` / `.cursorrules` / `.windsurfrules` | 把 `dist/kernel-always-on.md` 内容贴进去，等价于 AGENTS.md |
 | 只支持一段自定义指令 | 用单文件载体，或至少贴内核 |
-| 支持 MCP | 直接挂 `scripts/dcai_mcp.py`（stdio，9 个工具，零依赖），见 [mcp.md](mcp.md) |
+| 支持 MCP | 直接挂 `scripts/falsify_mcp.py`（stdio，9 个工具，零依赖），见 [mcp.md](mcp.md) |
 | 企业内网、无法执行脚本 | 只用文本载体；预测部分让模型输出卡片 JSON，人工跑 CLI 校验 |
 
 ## 能力探测与降级

@@ -1,10 +1,10 @@
 ---
-name: dcai-unified-kernel
+name: falsify
 description: Run serious problems through evidence-layered reasoning instead of confident storytelling — research, decision, execution design, system building, and falsifiable forecasts with Brier calibration. Use for high-stakes choices, root-cause and logic audits, pre-mortems, turning repeated work into a repeatable system, and logging probability forecasts you will later score.
 license: MIT
 ---
 
-# DCAI Unified Kernel · v2.1-alpha
+# FALSIFY Unified Kernel · v2.2-alpha
 
 An inescapable cognitive kernel, plus task-selected workflows, plus a separate presentation layer. The router only chooses a workflow; it cannot switch off factual honesty, evidence layering, assumption audit, counter-evidence or conclusion calibration.
 
@@ -17,7 +17,7 @@ An inescapable cognitive kernel, plus task-selected workflows, plus a separate p
 | Agent Skills clients (Claude Code, DSH, …) | install this directory, then describe the task |
 | Agents that only read `AGENTS.md` (Codex, Cursor, …) | merge `dist/kernel-always-on.en.md` into your project `AGENTS.md` |
 | Plain chat UIs | paste `dist/kernel-always-on.en.md` as the system prompt (single-file build is Chinese-first) |
-| Hard constraints on forecasts | `python scripts/dcai.py --help` |
+| Hard constraints on forecasts | `python scripts/falsify.py --help` |
 
 ## When it activates
 
@@ -99,15 +99,15 @@ Constraints: research can support a decision but cannot set the user's value wei
 
 | Command | Effect |
 |---|---|
-| `dcai.py forecast new --id FC-001 --question "…" --deadline 2026-12-31 --p 0.6` | create a forecast card; `--p` is the user's confirmed value, the model may only supply `--ai-low/--ai-high` |
-| `dcai.py forecast update --id FC-001 --p 0.65 --note "new evidence…"` | append an update, old value preserved; resolved cards are refused |
-| `dcai.py forecast resolve --id FC-001 --outcome 1 --source "…"` | resolve once, sealed; a second resolve is refused |
-| `dcai.py forecast score` | initial/final Brier, update gain, same-set baseline, calibration bins with N and small-sample guardrails |
-| `dcai.py decide new --id DEC-001 --question "…"` | scaffold a decision record (facts / preferences / options / risks separated) |
-| `dcai.py check` | validate every card: probability ownership, update chain, no backfilled outcome, ordering |
-| `dcai.py verify` | check the sealed hash chain and ledger replay, detecting hand edits |
+| `falsify.py forecast new --id FC-001 --question "…" --deadline 2026-12-31 --p 0.6` | create a forecast card; `--p` is the user's confirmed value, the model may only supply `--ai-low/--ai-high` |
+| `falsify.py forecast update --id FC-001 --p 0.65 --note "new evidence…"` | append an update, old value preserved; resolved cards are refused |
+| `falsify.py forecast resolve --id FC-001 --outcome 1 --source "…"` | resolve once, sealed; a second resolve is refused |
+| `falsify.py forecast score` | initial/final Brier, update gain, same-set baseline, calibration bins with N and small-sample guardrails |
+| `falsify.py decide new --id DEC-001 --question "…"` | scaffold a decision record (facts / preferences / options / risks separated) |
+| `falsify.py check` | validate every card: probability ownership, update chain, no backfilled outcome, ordering |
+| `falsify.py verify` | check the sealed hash chain and ledger replay, detecting hand edits |
 
-Data lives in `./dcai/` by default (`--dir` or `DCAI_HOME` to change).
+Data lives in `./.falsify/` by default (`--dir` or `FALSIFY_HOME` to change).
 
 ## Reference index
 
@@ -153,10 +153,10 @@ Task actually done? Sources in bounds? Claims stratified? Main counter-argument 
 
 On first confirmation, reply with the single line below and **stop there**:
 
-> DCAI kernel v2.1-alpha loaded. Facts, evidence, inference, assumptions and unknowns stay separated; serious research and decisions default to the professional collaboration view. Tell me what you want to research, choose, execute, build or review.
+> FALSIFY kernel v2.2-alpha loaded. Facts, evidence, inference, assumptions and unknowns stay separated; serious research and decisions default to the professional collaboration view. Tell me what you want to research, choose, execute, build or review.
 
 Do not add, at activation time: a re-statement of the kernel, the eight steps, the routing table, the reference index, the self-check list, or version history. Those appear when the user brings a real task — or explicitly asks for an audit. **One line is a hard requirement**; regression case T01 exists precisely to catch "dumped the router and self-check on activation".
 
 ## Version and provenance
 
-`v2.1-alpha`: rules and structure are complete; the behavioural suite must be re-run per carrier and per model (see `references/19-regression.md`). Forecast calibration follows Mellers et al. (2014, 2015) and Gneiting & Raftery (2007); see `references/17-references.md`.
+`v2.2-alpha`: rules and structure are complete; the behavioural suite must be re-run per carrier and per model (see `references/19-regression.md`). Forecast calibration follows Mellers et al. (2014, 2015) and Gneiting & Raftery (2007); see `references/17-references.md`.

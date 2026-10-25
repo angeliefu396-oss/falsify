@@ -1,6 +1,6 @@
-# DCAI Manual
+# FALSIFY Manual
 
-> Version `v2.1-alpha` · Works with any agent that accepts a system prompt, an `AGENTS.md`, or an Agent Skills directory.
+> Version `v2.2-alpha` · Works with any agent that accepts a system prompt, an `AGENTS.md`, or an Agent Skills directory.
 > This document answers three questions: **what it is, how to install it, what to do when it misbehaves.**
 > The Chinese manual ([MANUAL.md](MANUAL.md)) is the more detailed one; this English version covers everything you need to operate the project.
 
@@ -35,12 +35,12 @@ Four carriers, stackable.
 | Claude Code / DSH / any Agent Skills client | `SKILL.md` directory | scanned at session start |
 | Codex / Cursor / Aider / `AGENTS.md` readers | `dist/kernel-always-on.en.md` | whenever project rules are read |
 | ChatBox / web UIs | `dist/kernel-always-on.en.md` as the system prompt | every turn |
-| Forecast ledger, reviews, tamper checks | `scripts/dcai.py` or MCP | on demand |
+| Forecast ledger, reviews, tamper checks | `scripts/falsify.py` or MCP | on demand |
 
 ### 2.1 Agent Skills clients
 
 ```bash
-git clone https://github.com/dcai-kernel/dcai-unified-kernel.git
+git clone https://github.com/falsify-kernel/falsify.git
 sh install/install.sh --en ~/.claude/skills     # English entry point
 ```
 
@@ -60,13 +60,13 @@ That is the whole installation: ~5,600 characters of always-on rules.
 
 ### 2.3 Plain chat UI
 
-Paste `dist/kernel-always-on.en.md` as the system prompt. The single-file build (`dist/dcai-single-file.md`) contains the kernel *and* all 19 workflow appendices, but those appendices are Chinese — prefer the always-on kernel unless you read Chinese.
+Paste `dist/kernel-always-on.en.md` as the system prompt. The single-file build (`dist/falsify-single-file.md`) contains the kernel *and* all 19 workflow appendices, but those appendices are Chinese — prefer the always-on kernel unless you read Chinese.
 
 ### 2.4 Acceptance check
 
 Ask these in order; if any fails, the installation did not take:
 
-1. `Load the DCAI kernel and confirm the version only.` → one line, no recitation.
+1. `Load the FALSIFY kernel and confirm the version only.` → one line, no recitation.
 2. `I'm certain this industry will decline. Find evidence proving I'm right.` → should rewrite the question and produce counter-evidence, not agree.
 3. `This is a serious research question about my career. Analyse it.` → should produce an evidence table, not a long story.
 4. `I feel things will get better; log it at 80%.` → should refuse to score a vague feeling.
@@ -86,8 +86,8 @@ references/01…19              on-demand workflows (kernel full text, evidence,
                               forecasting, state, quality, boundaries, commands, conventions,
                               provenance, templates, regression)
 scripts/build.py              injects kernels into SKILL*.md and generates dist/
-scripts/dcai.py               enforcement CLI
-scripts/dcai_mcp.py           MCP server (stdio, 9 tools)
+scripts/falsify.py               enforcement CLI
+scripts/falsify_mcp.py           MCP server (stdio, 9 tools)
 dist/                         generated: two always-on kernels, one single-file carrier
 tests/                        unit, CLI, MCP, structure, regression cases
 docs/                         architecture, portability, usage, MCP, i18n, regression
@@ -160,33 +160,33 @@ Read **one** file at a time. That is the point: a one-off question costs only th
 
 ## 7. CLI reference
 
-Data lives in `./dcai/` by default (`--dir` or `DCAI_HOME` to change).
+Data lives in `./.falsify/` by default (`--dir` or `FALSIFY_HOME` to change).
 
 ```bash
 # create a card: p is YOUR probability; the model may only give a range
-python scripts/dcai.py forecast new --id FC-001 \
+python scripts/falsify.py forecast new --id FC-001 \
   --question "Will the feature reach 10k DAU before 2026-12-31?" \
   --deadline 2026-12-31 --p 0.6 --ai-low 0.55 --ai-high 0.72 \
   --base-rate 0.35 --base-source "comparable features" --control mid
 
 # append an update
-python scripts/dcai.py forecast update --id FC-001 --p 0.68 --note "retention 4pp above baseline"
+python scripts/falsify.py forecast update --id FC-001 --p 0.68 --note "retention 4pp above baseline"
 
 # resolve once
-python scripts/dcai.py forecast resolve --id FC-001 --outcome 1 --source "analytics 2026-12-31"
+python scripts/falsify.py forecast resolve --id FC-001 --outcome 1 --source "analytics 2026-12-31"
 
 # void (not scored, but counted in the void rate)
-python scripts/dcai.py forecast void --id FC-002 --reason "event cancelled"
+python scripts/falsify.py forecast void --id FC-002 --reason "event cancelled"
 
 # reports and checks
-python scripts/dcai.py forecast score            # human readable
-python scripts/dcai.py forecast score --json     # machine readable
-python scripts/dcai.py forecast list
-python scripts/dcai.py check                     # rules
-python scripts/dcai.py verify                    # sealed chain + ledger replay
+python scripts/falsify.py forecast score            # human readable
+python scripts/falsify.py forecast score --json     # machine readable
+python scripts/falsify.py forecast list
+python scripts/falsify.py check                     # rules
+python scripts/falsify.py verify                    # sealed chain + ledger replay
 
 # decision record scaffold
-python scripts/dcai.py decide new --id DEC-001 --question "Switch from A to B?"
+python scripts/falsify.py decide new --id DEC-001 --question "Switch from A to B?"
 ```
 
 | Flag | Required | Meaning |
@@ -213,18 +213,18 @@ Zero-dependency stdio server, 9 tools, calling the same functions as the CLI.
 ```json
 {
   "mcpServers": {
-    "dcai": {
+    "falsify": {
       "command": "python",
-      "args": ["/abs/path/dcai-unified-kernel/scripts/dcai_mcp.py"],
-      "env": { "DCAI_HOME": "/abs/path/ledger" }
+      "args": ["/abs/path/falsify/scripts/falsify_mcp.py"],
+      "env": { "FALSIFY_HOME": "/abs/path/ledger" }
     }
   }
 }
 ```
 
-Self-check: `python scripts/dcai_mcp.py --selftest`. Tool reference: [docs/mcp.md](docs/mcp.md) (Chinese).
+Self-check: `python scripts/falsify_mcp.py --selftest`. Tool reference: [docs/mcp.md](docs/mcp.md) (Chinese).
 
-A useful system-prompt line: *"Call `dcai_forecast_new` before recording any forecast; never fill `p` yourself. Use `dcai_forecast_update` rather than claiming you updated a number. When reviewing, call `dcai_forecast_score` and relay the warnings verbatim."*
+A useful system-prompt line: *"Call `falsify_forecast_new` before recording any forecast; never fill `p` yourself. Use `falsify_forecast_update` rather than claiming you updated a number. When reviewing, call `falsify_forecast_score` and relay the warnings verbatim."*
 
 ---
 
@@ -278,7 +278,7 @@ Record per case: date, carrier and version, model and version, which reference f
 
 **Do I need the CLI?** No. Skip it if you do not keep a forecast ledger. If you do, use either the CLI or MCP.
 
-**Where is my data?** `./dcai/` or `DCAI_HOME`, plain JSON, local only. The hash chain proves tampering; it does not prevent reading.
+**Where is my data?** `./.falsify/` or `FALSIFY_HOME`, plain JSON, local only. The hash chain proves tampering; it does not prevent reading.
 
 **Can I translate it?** Yes — see [docs/i18n.md](docs/i18n.md). The glossary is fixed, and you must not soften "must not" / "prohibited" for fluency.
 
@@ -302,7 +302,7 @@ Record per case: date, carrier and version, model and version, which reference f
 
 Semantic versioning: new workflow or command = minor; kernel semantics change = major; docs and examples = patch. Until a real carrier regression passes, the version keeps an `-alpha` / `-rc` suffix.
 
-Upgrade: `git pull` → `python scripts/build.py` → run tests → reopen the session (Skills carriers rescan at startup). Ledger data in `dcai/` travels with you.
+Upgrade: `git pull` → `python scripts/build.py` → run tests → reopen the session (Skills carriers rescan at startup). Ledger data in `.falsify/` travels with you.
 
 ## 13. Contributing and license
 

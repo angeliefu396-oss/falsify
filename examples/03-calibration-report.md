@@ -1,4 +1,4 @@
-<!-- 由 scripts/dcai.py forecast score 生成，可据此照抄格式 -->
+<!-- 由 scripts/falsify.py forecast score 生成，可据此照抄格式 -->
 
 ## 预测校准报告
 

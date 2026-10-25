@@ -1,4 +1,4 @@
-# AGENTS.md — DCAI 统一内核仓库
+# AGENTS.md — 证伪内核仓库
 
 ## 如果你是在本仓库干活的 agent
 
@@ -14,7 +14,7 @@
 
 ```bash
 # 常驻内核（任何读 AGENTS.md 的 agent）
-cat dcai-unified-kernel/dist/kernel-always-on.md >> your-project/AGENTS.md
+cat falsify/dist/kernel-always-on.md >> your-project/AGENTS.md
 
 # 工作流按需读：把 references/ 一起放进项目，或在提示里指明路径
 ```

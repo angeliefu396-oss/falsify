@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Install dcai-unified-kernel into an Agent Skills directory (Windows).
+  Install falsify into an Agent Skills directory (Windows).
 
 .DESCRIPTION
   ASCII-only on purpose: Windows PowerShell 5.1 reads BOM-less UTF-8 scripts as ANSI,
@@ -27,7 +27,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$Name = 'dcai-unified-kernel'
+$Name = 'falsify'
 $Src = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 
 $Candidates = @(
@@ -74,5 +74,5 @@ foreach ($base in $Bases) {
 if (-not $Remove -and -not $Check) {
   ""
   "Open a new agent session for the skill to be picked up."
-  "Verify with: 'Load the DCAI kernel and confirm the version only.'"
+  "Verify with: 'Load the FALSIFY kernel and confirm the version only.'"
 }

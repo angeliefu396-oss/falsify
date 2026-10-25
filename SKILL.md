@@ -1,10 +1,10 @@
 ---
-name: dcai-unified-kernel
+name: falsify
 description: Run serious problems through evidence-layered reasoning instead of confident storytelling — research, decision, execution design, system building, and falsifiable forecasts with Brier calibration. Use for high-stakes choices, root-cause and logic audits, pre-mortems, turning repeated work into a repeatable system, and logging probability forecasts you will later score. 中文触发：严肃研究、重大决策、职业/投资取舍、根因分析、压力测试、风险评估、系统构建、Prompt/Skill/SOP 设计、预测登记与 Brier 复盘、"别迎合我"、"别讲故事"、"给我证据"、"我可能想错了"。
 license: MIT
 ---
 
-# DCAI 统一内核 · v2.1-alpha
+# 证伪内核 · v2.2-alpha
 
 一个不可绕过的认知内核 + 按任务选的工作流 + 独立呈现层。路由器只选工作流，**关不掉**事实诚实、证据分层、假设审计、反证与结论校准。
 
@@ -14,8 +14,8 @@ license: MIT
 |---|---|
 | 支持 Agent Skills 的客户端（Claude Code、DSH 等） | 把本目录放进它的 skills 目录，说出任务即可触发 |
 | 只读 `AGENTS.md` 的 agent（Codex、Cursor 等） | 把 `dist/kernel-always-on.md` 的内容并入项目 `AGENTS.md` |
-| 纯聊天框（ChatBox、任意网页 UI） | 把 `dist/dcai-single-file.md` 贴成系统提示词，或上传当知识库 |
-| 要有硬约束（预测/决策记账） | `python scripts/dcai.py --help` |
+| 纯聊天框（ChatBox、任意网页 UI） | 把 `dist/falsify-single-file.md` 贴成系统提示词，或上传当知识库 |
+| 要有硬约束（预测/决策记账） | `python scripts/falsify.py --help` |
 
 ## 何时启用
 
@@ -97,15 +97,15 @@ license: MIT
 
 | 命令 | 作用 |
 |---|---|
-| `python scripts/dcai.py forecast new --id FC-001 --question "…" --deadline 2026-12-31 --p 0.6` | 建预测卡；`--p` 是用户确认值，AI 只能另给 `--ai-low/--ai-high` 范围 |
-| `python scripts/dcai.py forecast update --id FC-001 --p 0.65 --note "新证据…"` | 追加更新，旧值保留；已兑现的卡直接驳回 |
-| `python scripts/dcai.py forecast resolve --id FC-001 --outcome 1 --source "…"` | 兑现一次，落封印；二次兑现驳回 |
-| `python scripts/dcai.py forecast score` | 初始/最终 Brier、更新增益、同题集基线、分档校准（带 N 与小样本护栏） |
-| `python scripts/dcai.py decide new --id DEC-001 --question "…"` | 生成决策记录骨架（事实/偏好/选项/风险分栏） |
-| `python scripts/dcai.py check` | 校验全部卡片：概率所有权、更新链、无结果回填、时间顺序 |
-| `python scripts/dcai.py verify` | 校验封印哈希链，检测手工改账 |
+| `python scripts/falsify.py forecast new --id FC-001 --question "…" --deadline 2026-12-31 --p 0.6` | 建预测卡；`--p` 是用户确认值，AI 只能另给 `--ai-low/--ai-high` 范围 |
+| `python scripts/falsify.py forecast update --id FC-001 --p 0.65 --note "新证据…"` | 追加更新，旧值保留；已兑现的卡直接驳回 |
+| `python scripts/falsify.py forecast resolve --id FC-001 --outcome 1 --source "…"` | 兑现一次，落封印；二次兑现驳回 |
+| `python scripts/falsify.py forecast score` | 初始/最终 Brier、更新增益、同题集基线、分档校准（带 N 与小样本护栏） |
+| `python scripts/falsify.py decide new --id DEC-001 --question "…"` | 生成决策记录骨架（事实/偏好/选项/风险分栏） |
+| `python scripts/falsify.py check` | 校验全部卡片：概率所有权、更新链、无结果回填、时间顺序 |
+| `python scripts/falsify.py verify` | 校验封印哈希链，检测手工改账 |
 
-默认数据目录 `./dcai/`（可用 `--dir` 或 `DCAI_HOME` 改）。
+默认数据目录 `./.falsify/`（可用 `--dir` 或 `FALSIFY_HOME` 改）。
 
 ## 参考索引
 
@@ -151,10 +151,10 @@ license: MIT
 
 用户首次确认启用时，只回下面那一句，**到此为止**：
 
-> DCAI 统一内核 v2.1-alpha 已加载。事实、证据、推断、假设与未知将保持分离；严肃研究和决策默认使用专业协作视图。请直接告诉我你要研究、选择、执行、构建或复盘什么。
+> 证伪内核 v2.2-alpha 已加载。事实、证据、推断、假设与未知将保持分离；严肃研究和决策默认使用专业协作视图。请直接告诉我你要研究、选择、执行、构建或复盘什么。
 
 不要在激活时补充：内核要点复述、八步清单、路由触发表、参考文件索引、自检项、版本沿革。这些在用户提出第一个真实任务、或明确要求审计时才出现。**"只说一句"是硬要求**——回归测试 T01 会抓"激活时输出大段路由与自检"的失败。
 
 ## 版本与来源
 
-`v2.1-alpha`：规则与结构已完成，回归测试需在具体载体 + 具体模型上重跑（见 `references/19-regression.md`）。预测校准部分依据 Mellers 等（2014, 2015）与 Gneiting & Raftery（2007），详见 `references/17-references.md`。
+`v2.2-alpha`：规则与结构已完成，回归测试需在具体载体 + 具体模型上重跑（见 `references/19-regression.md`）。预测校准部分依据 Mellers 等（2014, 2015）与 Gneiting & Raftery（2007），详见 `references/17-references.md`。

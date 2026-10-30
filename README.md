@@ -51,9 +51,14 @@ python scripts/falsify.py forecast new --id FC-001 --question "Will X ship befor
   --deadline 2026-12-31 --p 0.6 --base-rate 0.35 --base-source "comparable launches"
 python scripts/falsify.py forecast update --id FC-001 --p 0.68 --note "pilot data better than base rate"
 python scripts/falsify.py forecast score
+
+# 5. As a Codex skill on Windows
+powershell -NoProfile -ExecutionPolicy Bypass -File falsify/install/install.ps1 `
+  -Target "$env:USERPROFILE\.codex\skills"
+
 ```
 
-No install step, no dependencies, Python 3.8+ standard library only. Per-carrier details: [docs/portability.md](docs/portability.md). English skill entry: `sh install/install.sh --en <skills-dir>`.
+No package installation or runtime dependencies; Python 3.8+ standard library only. Per-carrier details: [docs/portability.md](docs/portability.md). English skill entry: `sh install/install.sh --en <skills-dir>`.
 
 ## Documentation
 

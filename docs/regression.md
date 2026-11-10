@@ -52,6 +52,16 @@
 
 注意并发上限：多数编排器的同时活跃子 agent 有限（本机实测为 8），按 4 条一批最稳。批量跑很慢，适合后台任务。
 
+或使用仓库内置的评测框架 CLI（标准库实现，支持筛选与结果渲染）：
+
+```bash
+# 查看全部回归用例
+python scripts/eval_harness.py --list
+
+# 跑贡献指南要求的首轮 7 条核心用例
+python scripts/eval_harness.py --cases T01,T03,T07,T09,T13,T19,T21
+```
+
 ## 5. 本仓库跑过的一轮
 
 见 [docs/regression-results.md](regression-results.md)（含逐条判定、失败原因与结论）。那份记录同时是一份"这套东西在真实模型上到底灵不灵"的证据，灵的地方和漏的地方都写着。
